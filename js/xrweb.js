@@ -299,14 +299,11 @@ function sendChat(other, chatText) {
 
 function loadSettings() {
 	me = localStorage.getItem("uniquename");
-	// if(source != '')
-	// 	uniqueNames.push(source);
 	document.querySelector("title").innerHTML = 'XRWeb - ' + me;
-	// re-use the source variable
-	//document.getElementById("uniquename").value = source;
 	if(passphrase === '') {
 		openNav();
 	}
+	makePresenceRow(me, false);
 }
 
 function updateOnlineStatus() {
@@ -328,7 +325,7 @@ function ctrlR() {
 
 function refreshRFU(rfuname) {
 	//console.log("Refresh RFU: " + rfuname);
-	client.send("rfu/cmd/" + rfuname + "/reload", '', 2, false);
+	client.send("presence/get/" + rfuname, '', 2, false);
 }
 
 function updatePresence(rfuname, online) {
@@ -407,24 +404,6 @@ function makePresenceRow(rfuname, online) {
 	onlinebutton.onclick = function(){refreshRFU(rfuname);};
 	onlinebutton.ondblclick = function(){launchRFU(rfuname);};
 	onlinecell.appendChild(onlinebutton);
-
-	// var scancell = row.insertCell(1);
-	// scancell.id = rfuname + "Scan";
-	// scancell.className = "prescell";
-	
-	// var linkcell = row.insertCell(1);
-	// linkcell.id = rfuname + "Linked";
-	// linkcell.className = "prescell";
-
-	// var queuedcell = row.insertCell(2);
-	// queuedcell.innerHTML = "?";
-	// queuedcell.id = rfuname + "Queued";
-	// queuedcell.className = "center prescell";
-	// client.send("queue/cmd/" + rfuname + "/MSGLIST", '', 2, false);
-	//client.send("queue/cmd/" + rfuname + "/INQUEUE", '', 2, false);
-	client.send("rfu/cmd/" + rfuname + "/reload", '', 2, false);
-	//client.send("rfu/cmd/" + rfuname + "/3GTIME", '', 2, false);
-	//console.log("send update requests");
 }
 
 // End Connectivity Functions
