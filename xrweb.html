@@ -5,28 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="css/sidenav.css" type="text/css">
-<link rel="stylesheet" href="css/hfaweb.css" type="text/css">
+<link rel="stylesheet" href="css/xrweb.css" type="text/css">
 
 <script src="js/paho-mqtt-min.js" type="text/javascript"></script>
-<script src="js/HFAWeb.js" type="text/javascript"></script>
-<!-- <script>
-  /* drag and drop stuff */
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
+<script src="js/xrweb.js" type="text/javascript"></script>
 
-  function drag(ev) {
-    //ev.dataTransfer.setData("text", ev.target.innerHTML);
-    ev.dataTransfer.setData("text", selectedMsgId);
-  }
-
-  function drop(ev) {
-    ev.preventDefault();
-    //var data = ev.dataTransfer.getData("text");
-    moveItemToFolder(selectedMsgId, ev.target.innerHTML);
-  }
-  //console.log("page loaded:");
-  </script> -->
 <title>HFA Web</title>
 </head>
 <body onload="loadSettings();">
@@ -47,11 +30,11 @@
     
   </table>
 </div>  
+
 <!-- start sidenav -->
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	<a id="showtrace" onclick="showtracechanged();closeNav();">toggle messaging trace</a>
-  <!--<a id="showlqadata" onclick="showlqadatachanged();closeNav();">toggle LQA display: ?</a> -->
   <div>Pass Phrase:<br/><input type="password" id="passphr" placeholder="Enter Pass Phrase"></div>
 	<a href="https://www.radcommsoft.com" onclick="alert('HFA Web, &copy;&nbsp;2021&nbsp;GrizzWorks, LLC\n\nAll Rights Reserved')">About HFA Web</a>
 	<a href="https://www.radcommsoft.com/contact" target="_blank">Contact</a>
@@ -59,57 +42,10 @@
 <!-- end of the sidenav -->
 
 <!-- the hidden mqtt trace area -->
-<div class="scroll" id="div1" hidden="false"></div>
-<div hidden="true" id="buttondiv">
-<button hidden="true" id="clearButton" class="small button" onclick="document.getElementById('div1').innerHTML = '';">Clear</button>
-</div>
+<div class="scroll" id="div1" hidden="true"></div>
+<!-- <div hidden="true" id="buttondiv" class="traceclear" >
+<button id="clearButton" class="small button" onclick="document.getElementById('div1').innerHTML = '';">Clear</button>
+</div> -->
 <!-- end hidden mqtt trace area -->
-
-<div class="chatdiv">
-  <pre wrap="soft" class="chatscroll" id="chatarea"></pre>
-</div>
-<!-- the chat controls box-->
-<footer class="scaps bottom">
-  <table class="widthfull">
-    <tr><td rowspan="2">
-  <textarea style="width:400px;min-width:200px;height:100px;" autofocus="true" id="amdtext" placeholder="Chat text"></textarea></td>
-  <td>Send To:<br/><select id="other"><option>NNX3XA-R</option></select></td></tr>
-  <td>
-  <button id="callbutton" class="center small button" 
-  onclick="sendChat(document.getElementById('other')[document.getElementById('other').selectedIndex].text, document.getElementById('amdtext').value)">
-  SEND</button>
-  <button id="clearchat" onclick="clearchat();" class="small button">Clear</button></td>
-  </tr>
-    </table>  
-</footer>
-
-<!-- These are the functions for <Enter> key tracking for input fields -->
-<script type="text/javascript">
-var lastamdtext = '';
-var chatline = document.getElementById("amdtext");
-  chatline.addEventListener("keyup", function(event) {
-    //console.log("key:" + event.key);
-    if (event.key === 'Enter') {
-     event.preventDefault();
-     // initiate a pagecall with text message
-     document.getElementById("callbutton").click();
-    }
-    else if(event.key === 'ArrowUp') {
-      document.getElementById("amdtext").value = lastamdtext;
-    }
-  });
-
-  // var uniqueline = document.getElementById("uniquename");
-  // uniqueline.addEventListener("keyup", function(event) {
-    //console.log("key:" + event.key);
-  //   if (event.key === 'Enter') {
-  //    event.preventDefault();
-  //    // initiate a pagecall with text message
-  //    //document.getElementById("reload").click();
-  //    closeNav();
-  //    ctrlR();
-  //   }
-  // });
-  </script>
 </body>
 </html>
