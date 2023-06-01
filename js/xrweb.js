@@ -305,6 +305,7 @@ function loadSettings() {
 		openNav();
 	}
 	makePresenceRow(me, false);
+	launchRFU(me);
 }
 
 function updateOnlineStatus() {
@@ -347,12 +348,14 @@ function updatePresence(rfuname, online) {
 }
 
 function launchRFU(rfuname) {
-	console.log("Launch RFU: " + rfuname);
+	//console.log("Launch RFU: " + rfuname);
 	localStorage.setItem("uniquename", rfuname);
 	me = rfuname;
 	var tmp = document.getElementById(rfuname + "Online");
 	var cn = tmp.className;
 	if(cn.includes("offline")) return;
+	// here is where you would gather all of the pertinent
+	// data to fill the screen or bank
 }
 
 function makePresenceRow(rfuname, online) {
