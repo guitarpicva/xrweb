@@ -75,6 +75,7 @@ function onConnect() {
 	// get the routing table
 	//client.send("routing/cmd/" + me + "/ROUTELIST", "", 2, false);
 	// get the version number of the software
+	client.send("presence/ind/" + me + "/CONNECTED", "HI!", 0, true);
 	client.send("presence/ver/" + me, '', 2, false);
 	client.send("presence/get/" + me, "", 2, false);
 	//client.send("rfu/cmd/" + me + "/3GTIME", "", 2, false);
@@ -96,7 +97,7 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
-	console.log(message.destinationName + ":<br>" + message.payloadString);
+	console.log(message.destinationName + ":\n" + message.payloadString);
 	//me = document.getElementById("uniquename").value;
 	//console.log("onMessageArrived:" + me); // + document.baseURI);
 	var res = message.payloadString;
@@ -352,8 +353,6 @@ function launchRFU(rfuname) {
 	var tmp = document.getElementById(rfuname + "Online");
 	var cn = tmp.className;
 	if(cn.includes("offline")) return;
-	client.send("alerts/get/" + rfuname, '', 2, false);
-	clearchat();
 }
 
 function makePresenceRow(rfuname, online) {
