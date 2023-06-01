@@ -1,0 +1,55 @@
+.sidenav {
+  display: none;
+  height: 100%;
+  width: 350px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #303030;
+  overflow-x: hidden;
+  padding-top: 60px;
+  font-variant:small-caps;
+  color: #919191;
+}
+.sidenav div {
+	padding: 8px 8px 8px 15px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #919191;
+  display: block;
+}
+.sidenav .larger {
+	transform:scale(1.3);
+}
+.sidenav input {
+	font-size:1.3em;
+}
+
+.sidenav select {
+	font-size:1.3em;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 15px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #919191;
+  display: block;
+}
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 36px;
+  margin-left: 0;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
