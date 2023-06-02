@@ -64,6 +64,7 @@ function onConnect() {
 	//document.getElementById("div1").innerHTML = tmp;
 	//document.getElementById("chatarea").innerHTML = tmp;
 	client.subscribe("address/#");
+	client.subscribe("ports/#");
 	client.subscribe("presence/#");
 	client.subscribe("chat/send/#");
 	document.getElementById("onlineInd").innerHTML = "ONLINE";
@@ -306,6 +307,9 @@ function loadSettings() {
 	}
 	makePresenceRow(me, false);
 	launchRFU(me);
+	// TEST
+	makePortsRow("myport", "[]");
+	// END TEST
 }
 
 function updateOnlineStatus() {
@@ -327,6 +331,8 @@ function ctrlR() {
 
 function refreshRFU(rfuname) {
 	//console.log("Refresh RFU: " + rfuname);
+	// this should return multiple topics with all of the data necessary
+	// to update the various sections of the page for this station
 	client.send("presence/get/" + rfuname, '', 2, false);
 }
 
@@ -408,4 +414,22 @@ function makePresenceRow(rfuname, online) {
 	onlinecell.appendChild(onlinebutton);
 }
 
+function makePortsRow(portname, jsondata) {
+	var table = document.getElementById("portstable");
+    var row;
+    //console.log("rowcount:" + table.rows.length);
+	// number of rows BEFORE adding a new ports row
+    var rowcount = table.rows.length;
+    var colCount = 7; // we have 7 cells in each row
+    // make a new row for this port.  rowcount is the index of the next row
+	row = table.insertRow(rowcount);
+    //console.log("row:" + row + " useRow:" + useRow + " colCount:" + colCount);
+    row = table.rows[rowcount];
+	for (i = 0; i < colCount; i++) {
+		console.log("make cell: " + i);
+    	var onlinecell = row.insertCell(i);
+		onlinecell.className = "prescell button";
+		onlinecell.innerHTML = "cell: " + i; // this is where the actual cell value would be calculated and set
+	}
+}
 // End Connectivity Functions

@@ -170,31 +170,26 @@ div.traceclear { /* the mqtt trace clear button */
   position:relative;
 }
 
-div.msglist {
+div.portlist {
   position:absolute;
-  top:200px;
+  top:140px;
   background-color:#e0e0e0;
   display:inline-block;
   min-width:505px;
   max-width:505px;
   width:100%;
-	min-height:150px;
-  max-height:150px;
+	min-height:250px;
+  max-height:250px;
 	overflow-x:auto;
 	overflow-y:auto;
 	border:1px solid gray;
 }
 
-div.msgdiv {
-  position:absolute;
-  /* border:1px solid gray; */
+div.portstable {
+  /*border:1px solid gray;*/
   padding:0;
-  max-width:505px;
-  min-width:505px;
-  overflow-y: auto;
-  overflow-x:auto;
-  top:410px;
-  bottom:0;
+  max-width:500px;
+  min-width:500px;
 }
 
 pre.msgscroll {
