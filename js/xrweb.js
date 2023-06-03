@@ -14,14 +14,8 @@ var addressBook = []; // this will be an array of "Address" objects filled by a 
 // var uniqueNames = []; // the list of systems currently online from presence indications
 //console.log("addressBook:" + JSON.stringify(addressBook));
 
-var lastamdtext = '';
-// var b_showLQAData = localStorage.getItem("showlqadata") === "true"; // boolean to toggle display of LQA data real time
-// //console.log("TOP - showlqadata:" + b_showLQAData);
-// if(b_showLQAData === null)
-// 	b_showLQAData = false;
 var me = localStorage.getItem("uniquename"); // my unique ID, same as controller
 var myPosition = localStorage.getItem("position");
-
 var passphrase = localStorage.getItem("passphrase");
 if(passphrase === "") {
 	openNav();
@@ -303,14 +297,14 @@ function sendChat(other, chatText) {
 
 function loadSettings() {
 	me = localStorage.getItem("uniquename");
-	document.querySelector("title").innerHTML = 'XRWeb - ' + me;
+	document.querySelector("title").innerHTML = 'XRouter Web - ' + me;
 	if(passphrase === '') {
 		openNav();
 	}
 	makePresenceRow(me, false);
 	launchRFU(me);
 	// TEST
-	makePortsRow('{"port":"VHF","type":"Async","descr":"145.790","baud":"1200","mheard":"","l2":""}');
+	makePortsRow('{"port":"VHF","type":"Async","descr":"145.730","baud":"1200","mheard":"","l2":""}');
 	// END TEST
 }
 
