@@ -22,7 +22,7 @@ if(passphrase === "") {
 }
 var ipaddress = "radio.radcommsoft.net";
 //var ipaddress = "ec2-54-203-203-171.us-west-2.compute.amazonaws.com";
-//console.log("ipaddress:" + ipaddress);
+console.log("ipaddress:" + ipaddress + " passphrase:" + passphrase);
 //var selFolder = "InBox"; // on open use the InBox folder as the default filter
 //var selectedRow = 0;
 //var selectedMsgId = 0;
