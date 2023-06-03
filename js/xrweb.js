@@ -51,7 +51,7 @@ client.connect({useSSL:true,onSuccess: onConnect,userName:"d_WLo-C.5Xc2GU9J" , p
 // called when the client connects
 function onConnect() {
 	clearInterval(intervalID);
-	//console.log("onConnect...");
+	console.log("onConnect...");
 	// Once a connection has been made, make subscriptions
 	me = localStorage.getItem("uniquename");
 	tmp = "Connected to " + ipaddress;
@@ -79,7 +79,7 @@ function onConnect() {
 
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
-	//console.log("onConnectionLost...");
+	console.log("onConnectionLost...");
 	if (responseObject.errorCode !== 0) {
 		console.log("MQTT Connection Lost" + responseObject.errorMessage);
 		document.getElementById("div1").innerHTML += "<br>Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage;
