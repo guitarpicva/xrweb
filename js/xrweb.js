@@ -15,10 +15,10 @@ var addressBook = []; // this will be an array of "Address" objects filled by a 
 //console.log("addressBook:" + JSON.stringify(addressBook));
 
 var lastamdtext = '';
-var b_showLQAData = localStorage.getItem("showlqadata") === "true"; // boolean to toggle display of LQA data real time
-//console.log("TOP - showlqadata:" + b_showLQAData);
-if(b_showLQAData === null)
-	b_showLQAData = false;
+// var b_showLQAData = localStorage.getItem("showlqadata") === "true"; // boolean to toggle display of LQA data real time
+// //console.log("TOP - showlqadata:" + b_showLQAData);
+// if(b_showLQAData === null)
+// 	b_showLQAData = false;
 var me = localStorage.getItem("uniquename"); // my unique ID, same as controller
 var myPosition = localStorage.getItem("position");
 
