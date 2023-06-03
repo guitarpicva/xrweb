@@ -356,7 +356,7 @@ function launchRFU(rfuname) {
 	var tmp = document.getElementById(rfuname + "Online");
 	var cn = tmp.className;
 	if(cn.includes("offline")) return;
-	// here is where you would gather all of the pertinent
+	// here is where we would gather all of the pertinent
 	// data to fill the screen or bank
 }
 
@@ -392,7 +392,7 @@ function makePresenceRow(rfuname, online) {
         }
         
     }
-    //console.log("row:" + row + " useRow:" + useRow + " colCount:" + colCount);
+    console.log("row:" + row + " useRow:" + useRow + " colCount:" + colCount);
     row = table.rows[useRow];
     var onlinecell = row.insertCell(colCount);
 	onlinecell.className = "prescell button";
