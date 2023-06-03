@@ -15,12 +15,12 @@ html,body {
 }
 table {border:1px groove cornflowerblue;}
 table.pres {border:none;}
-th {font-weight:bold;font-variant:small-caps;border:none;font-size:0.75em;color:white;background-color:#303030;}
+th {padding-left:10px;padding-right:10px;font-weight:bold;font-variant:small-caps;border:none;font-size:0.75em;color:white;background-color:#303030;}
 td {text-align:center;vertical-align:center;border:none;flex-wrap: nowrap;}
 td.right {text-align:right;}
 td.center {text-align:center;}
 td.fixed {font-family:Courier, monospace;}
-/* td.prescell {border: 1px solid gray;width:32px; } */
+td.prescell {border: 1px solid gray;width:32px; }
 .controltable {min-height:100px;position:fixed;left:0;top:100px;min-width:505px;max-width:505px;margin-left:auto;margin-right:auto;}
 
 button.onlinebutton {
@@ -185,7 +185,7 @@ div.portlist {
 	border:1px solid gray;
 }
 
-div.portstable {
+table.portstable {
   /*border:1px solid gray;*/
   padding:0;
   max-width:500px;

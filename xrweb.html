@@ -21,7 +21,7 @@
     <button class="small white button" id="onlineInd" onclick="ctrlR();">-</button>
     <!-- <button id="reload" class="small" onclick="reloadCICS();">Refresh</button> -->
     <!--&nbsp;<span class="point8" id="ESN">ESN</span>&nbsp;- -->
-    &nbsp;<span class="point8" id="mename">RFU</span>
+    &nbsp;<span class="point8" id="mename">Status</span>
     </div> <!-- end reload button and ESN, name -->
 </div> <!-- end topheader -->
 <div class="pres">
@@ -32,7 +32,7 @@
 
 <div id="ports" class="portlist">
 <!-- add the station's list of port definitions here -->
-<table id="portstable" class="portstable">
+<table id="portstable" class="portstable fixed">
   <th>Port</th><th>Type</th><th>Descr</th><th>Baud</th><th>MHeard</th><th>L2</th><th>&nbsp;</th>
 </table>
 </div>
@@ -41,6 +41,7 @@
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	<a id="showtrace" onclick="showtracechanged();closeNav();">toggle messaging trace</a>
+  <div>Station Callsign:<br/><input type="text" id="callsign" placeholder="Enter Station Callsign and SSID"></div>
   <div>Pass Phrase:<br/><input type="password" id="passphr" placeholder="Enter Pass Phrase"></div>
 	<a href="https://www.radcommsoft.com" onclick="alert('HFA Web, &copy;&nbsp;2021&nbsp;GrizzWorks, LLC\n\nAll Rights Reserved')">About HFA Web</a>
 	<a href="https://www.radcommsoft.com/contact" target="_blank">Contact</a>

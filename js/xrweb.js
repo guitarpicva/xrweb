@@ -180,7 +180,9 @@ function closeNav() {
 	// save settings values to localStorage object
 	tmp = document.getElementById("passphr").value;
 	passphrase = tmp;
-	localStorage.setItem("passphrase", tmp);
+	tmp = document.getElementById("callsign").value;
+	localStorage.setItem("uniquename", tmp);	
+	me = localStorage.getItem("uniquename"); // my unique ID, the viewed station
 }
 
 function printTrace(toPrint) {
@@ -308,7 +310,7 @@ function loadSettings() {
 	makePresenceRow(me, false);
 	launchRFU(me);
 	// TEST
-	makePortsRow('{"port":"VHF","type":"Async","descr":"145.730","baud":"1200","mheard":"","l2":""}');
+	makePortsRow('{"port":"VHF","type":"Async","descr":"145.790","baud":"1200","mheard":"","l2":""}');
 	// END TEST
 }
 
