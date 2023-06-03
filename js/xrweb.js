@@ -308,7 +308,7 @@ function loadSettings() {
 	makePresenceRow(me, false);
 	launchRFU(me);
 	// TEST
-	makePortsRow("myport", "[]");
+	makePortsRow('{"port":"VHF","type":"Async","descr":"145.730","baud":"1200","mheard":"","l2":""}');
 	// END TEST
 }
 
@@ -337,7 +337,7 @@ function refreshRFU(rfuname) {
 }
 
 function updatePresence(rfuname, online) {
-	console.log("updatePresenceRow: " + rfuname + ":" + online);
+	console.log("updatePresence: " + rfuname + ":" + online);
 	var button = document.getElementById(rfuname + "Online");
 	if(button != null) {
 		if(online) {
@@ -414,22 +414,33 @@ function makePresenceRow(rfuname, online) {
 	onlinecell.appendChild(onlinebutton);
 }
 
-function makePortsRow(portname, jsondata) {
+function makePortsRow(jsondata) {
+	var jason = JSON.parse(jsondata); // one row of data as a JSON object
 	var table = document.getElementById("portstable");
-    var row;
     //console.log("rowcount:" + table.rows.length);
 	// number of rows BEFORE adding a new ports row
     var rowcount = table.rows.length;
     var colCount = 7; // we have 7 cells in each row
     // make a new row for this port.  rowcount is the index of the next row
-	row = table.insertRow(rowcount);
+	var row = table.insertRow(rowcount);
     //console.log("row:" + row + " useRow:" + useRow + " colCount:" + colCount);
-    row = table.rows[rowcount];
+    //row = table.rows[rowcount];
 	for (i = 0; i < colCount; i++) {
-		console.log("make cell: " + i);
+		//console.log("make cell: " + i);
     	var onlinecell = row.insertCell(i);
 		onlinecell.className = "prescell button";
-		onlinecell.innerHTML = "cell: " + i; // this is where the actual cell value would be calculated and set
+		onlinecell.style = 'font-family:Courier, monospace;';
+		// this is where the actual cell value would be gathered from MQTT data and set
+		switch(i) {
+		case 0: onlinecell.innerHTML = jason.port;break;
+		case 1: onlinecell.innerHTML = jason.type;break;
+		case 2: onlinecell.innerHTML = jason.descr;break;
+		case 3: onlinecell.innerHTML = jason.baud;break;
+		case 4: onlinecell.innerHTML = jason.mheard;break;
+		case 5: onlinecell.innerHTML = jason.l2;break;
+		case 6: onlinecell.innerHTML = "<a href=''>Stats</a>";break;
+		}
+		//onlinecell.innerHTML = "cell: " + i; 
 	}
 }
 // End Connectivity Functions
