@@ -392,7 +392,7 @@ function makePresenceRow(rfuname, online) {
         }
         
     }
-    console.log("row:" + row + " useRow:" + useRow + " colCount:" + colCount);
+    console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
     row = table.rows[useRow];
     var onlinecell = row.insertCell(colCount);
 	onlinecell.className = "prescell button";
