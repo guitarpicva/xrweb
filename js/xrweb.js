@@ -11,9 +11,6 @@ class Address {
 }
 var calltype = 0;
 var addressBook = []; // this will be an array of "Address" objects filled by a topic from the controller on start
-// var uniqueNames = []; // the list of systems currently online from presence indications
-//console.log("addressBook:" + JSON.stringify(addressBook));
-
 var me = localStorage.getItem("uniquename"); // my unique ID, same as controller
 var myPosition = localStorage.getItem("position");
 var passphrase = localStorage.getItem("passphrase");
@@ -172,7 +169,7 @@ function openNav() {
 function closeNav() {
 	document.getElementById("mySidenav").style.display = "none";
 	// save settings values to localStorage object
-	tmp = document.getElementById("passphr").value;
+	tmp = document.getElementById("passphrase").value;
 	passphrase = tmp;
 	tmp = document.getElementById("callsign").value;
 	localStorage.setItem("uniquename", tmp);	
