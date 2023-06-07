@@ -17,7 +17,8 @@ var passphrase = localStorage.getItem("passphrase");
 if(passphrase === "") {
 	openNav();
 }
-var ipaddress = "radio.radcommsoft.net";
+//var ipaddress = "radio.radcommsoft.net";
+var ipaddress = "test.mosquitto.org";
 //var ipaddress = "ec2-54-203-203-171.us-west-2.compute.amazonaws.com";
 console.log("ipaddress:" + ipaddress + " passphrase:" + passphrase);
 //var selFolder = "InBox"; // on open use the InBox folder as the default filter
@@ -30,21 +31,21 @@ var intervalID;
 function checkConnection() {
 	//alert("check connection...");
 	//console.log("checkConnection:" + client.connected);
-	//client.connect({ onSuccess: onConnect});
-	client.connect({useSSL:true,onSuccess: onConnect,userName:"d_WLo-C.5Xc2GU9J" , password:passphrase});
-	
+	//client.connect({useSSL:true,onSuccess: onConnect,userName:"d_WLo-C.5Xc2GU9J" , password:passphrase});	
+	client.connect({useSSL:true, onSuccess: onConnect});
 }
 
 var clientid = getTimeStamp().replace(" ", "_");
 //console.log("clientid:" + clientid);
-client = new Paho.MQTT.Client(ipaddress, Number(9001), "/mqtt", clientid);
+//client = new Paho.MQTT.Client(ipaddress, Number(9001), "/mqtt", clientid);
+client = new Paho.MQTT.Client(ipaddress, Number(8081), "/mqtt", clientid);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
 // connect the client
-client.connect({useSSL:true,onSuccess: onConnect,userName:"d_WLo-C.5Xc2GU9J" , password:passphrase});
-
+//client.connect({useSSL:true,onSuccess: onConnect,userName:"d_WLo-C.5Xc2GU9J" , password:passphrase});
+client.connect({useSSL:true, onSuccess: onConnect});
 // called when the client connects
 function onConnect() {
 	clearInterval(intervalID);
@@ -54,24 +55,10 @@ function onConnect() {
 	tmp = "Connected to " + ipaddress;
 	//document.getElementById("div1").innerHTML = tmp;
 	//document.getElementById("chatarea").innerHTML = tmp;
-	client.subscribe("address/#");
-	client.subscribe("ports/#");
-	client.subscribe("presence/#");
-	client.subscribe("chat/send/#");
-	document.getElementById("onlineInd").innerHTML = "ONLINE";
+	// subscribe to all xrouter topics for testing
+	client.subscribe("xrouter/#");
+	document.getElementById("onlineInd").innerHTML = "MQTT";
 	document.getElementById("onlineInd").style.backgroundColor = "cornflowerblue";
-	// get the list of aliases from the RFU
-	client.send("address/get/" + me + "/ADDRESSES", "", 2, false);
-	// get the list of routable messages
-	//client.send("queue/cmd/" + me + "/MSGLIST", "", 2, false);
-	// get the routing table
-	//client.send("routing/cmd/" + me + "/ROUTELIST", "", 2, false);
-	// get the version number of the software
-	client.send("presence/ind/" + me + "/CONNECTED", "HI!", 0, true);
-	client.send("presence/ver/" + me, '', 2, false);
-	client.send("presence/get/" + me, "", 2, false);
-	//client.send("rfu/cmd/" + me + "/3GTIME", "", 2, false);
-	//setTimeout(reloadCICS(), 2000);
 }
 
 // called when the client loses its connection
@@ -100,65 +87,41 @@ function onMessageArrived(message) {
 		document.getElementById("div1").innerHTML += "<br>" + topic + ":" + res;
 		document.getElementById("div1").scroll += 40;
 	}
-	if(topic.includes("presence/ind"))
-	{
-		//console.log("presence: " + topic + ":" + res);
-		// build table rows
-		if(topic.includes("CONNECTED")) {
-			var online = (res === "HI!");
-			if(document.getElementById(rfu + "Online") == null)
-				makePresenceRow(rfu, online);
-			else {
-				updatePresence(rfu, online);
-			}
-		}
-		else if(me + topic.includes("/VER")) {
-			document.getElementById("mename").innerHTML = me + " v. " + res;
-		}
-		//console.log("RFU: " + rfu + " online: " + online);
-	}
-	else if(topic.includes("chat/send/" + me)) {
-		// i am seding a chat so update the UI element
-		var chatarea = document.getElementById("chatarea").innerText;
-		//console.log("chat contents:" + chatarea);
-		chatarea = chatarea + "\n" + topic + ":" + res;
-		//console.log("new chat contents:" + chatarea);
-		document.getElementById("chatarea").innerHTML = chatarea;
-	}
-	else if (topic.includes(me + "/POSITION")) {
-		myPosition = res;
-		localStorage.setItem("position", myPosition);
-		//console.log("POSITION:" + myPosition);
-	}	
-	else if (topic.includes(me + "/ERROR")){
-		if(res.includes("No valid GPS position") || res.includes("XR/IH/VP/CEM/RM50")){
-		 	//document.getElementById("position").innerHTML = "NO GPS AVAILABLE";
-			 return;
+	if(topic.includes("xrouter/config")) {
+		jason = JSON.parse(res);
+		var table = document.getElementById("portstable");			
+			
+		// if ports list only
+		// clear all rows in the table
+		if(topic.includes("/ports")) {
+			max = table.rows.length; // before removing any rows!
+			console.log("max rows: " + max);
+			for(i=1;i < max; i++) {
+				console.log("remove row..." + i);
+				table.rows[1].remove();
+			}			
+			makePortsRows(jason);			
 		}
 		else {
-			printTrace("ERROR: " + res);
+			const fields = topic.split('/');
+			var rfuname = fields[2];
+			console.log("presence stn: " + rfuname)
+			// avoid making a button for one that is already there!!!
+			if(document.getElementById(rfuname + "Online") == null)
+				makePresenceRow(rfuname + '', true);
+			makeMainRow(jason);
+			makeAddressRow(jason);
+			// full config object which also includes "ports" object
+			max = table.rows.length; // before removing any rows!
+			console.log("full max rows: " + max);
+			for(i=1;i < max; i++) {
+				console.log("full remove row..." + i);
+				table.rows[1].remove();
+			}
+			jason = JSON.parse(res);
+			makePortsRows(jason);			
 		}
-	}
-	else if (topic.includes("address/ind/" + me + "/ADDRESSES"))
-	{
-		// store the address book in localStorage
-		//console.log("addressBook indication: " + res);
-		tmp = res;
-		if(tmp === '')
-			tmp = "[]";
-		localStorage.setItem("addressBook", tmp);
-		addressBook = JSON.parse(tmp);
-		//loadOtherList();
-	}
-	else if(topic.includes("/INQUEUE")) {
-        curr = document.getElementById(rfu + "Online").innerHTML;
-        //console.log("Handle INQUEUE - currtext:" + curr + "-" + res);
-        idx = curr.indexOf(":");
-		curr = curr.slice(0, idx + 1);
-        //console.log("curr: " + curr);
-        curr += res;
-        document.getElementById(rfu + "Online").innerHTML = curr;
-	}
+	}	
 }
 
 function openNav() {
@@ -169,69 +132,15 @@ function openNav() {
 function closeNav() {
 	document.getElementById("mySidenav").style.display = "none";
 	// save settings values to localStorage object
-	tmp = document.getElementById("passphrase").value;
-	passphrase = tmp;
-	tmp = document.getElementById("callsign").value;
-	localStorage.setItem("uniquename", tmp);	
-	me = localStorage.getItem("uniquename"); // my unique ID, the viewed station
+	tmp = document.getElementById("passphr").value;
+	passphrase = tmp + '';
+	// tmp = document.getElementById("callsign").value;
+	// localStorage.setItem("uniquename", tmp);	
+	// me = tmp; // my unique ID, the viewed station
 }
 
 function printTrace(toPrint) {
 	console.log("Print trace:" + toPrint);
-}
-
-function loadOtherList() {
-	// first delete the existing lines
-	// old = document.getElementById("otherlist"); // a <UL>
-	// oldlist = old.getElementsByTagName("LI");
-	// //console.log("oldlist:  " + oldlist[0]);
-	// // remove existing items from the list
-	// length = oldlist.length;
-	// //console.log("delete old list items: " + length);
-	// for(var i = 0; i < length; i++) {
-	// 	oldlist.item(0).remove();
-	// }
-	list = JSON.stringify(addressBook); // stringify'd JSON Address objects
-	//list.sort();
-	//console.log("otherlist: " + list);
-	// clear both lists
-	other = document.getElementById("other"); // a <select> in controller area
-	//other1 = document.getElementById("other1"); // a <select> in message area
-	otherLen = other.length;
-	//console.log("other list length:" + otherLen);
-	for (var i = 0; i < otherLen; i++) {
-		other.remove(0);
-		//other1.remove(0);
-	}
-	
-	JSON.parse(list).forEach(element => { // which is an Address object
-		//console.log("element:" + JSON.stringify(element));
-		if(element != null)
-		{
-			// var node = document.createElement("LI");
-			// var anchor = document.createElement("A");
-			// anchor.onclick = function(){
-			// 	document.getElementById("newother").value = element.address;
-			// 	document.getElementById("newothername").value = element.frname;
-			// };
-			// anchor.innerHTML = element.frname + ":" + element.address;
-			// node.append(anchor);
-			// document.getElementById("otherlist").appendChild(node);
-		    // load both UI lists
-			var node = document.createElement("option");
-			//var node1 = document.createElement("option");
-			node.text = element.frname + ":" + element.address;
-			//node1.text = element.frname + ":" + element.address;
-			other.add(node);
-			//other1.add(node1);
-		}
-	});
-	var node = document.createElement("option");
-			var node1 = document.createElement("option");
-			node.text = "ALL";
-			//node1.text = "BCAST:1023";
-			other.add(node);
-			//other1.add(node1);
 }
 
 function getTimeStamp() {
@@ -298,10 +207,11 @@ function loadSettings() {
 	if(passphrase === '') {
 		openNav();
 	}
-	makePresenceRow(me, false);
-	launchRFU(me);
 	// TEST
-	makePortsRow('{"port":"VHF","type":"Async","descr":"145.730","baud":"1200","mheard":"","l2":""}');
+	//makePresenceRow(me, false);
+	//launchRFU(me);
+	
+	// makePortsRow('{"port":"VHF","type":"Async","descr":"145.730","baud":"1200","mheard":"","l2":""}');
 	// END TEST
 }
 
@@ -326,7 +236,7 @@ function refreshRFU(rfuname) {
 	//console.log("Refresh RFU: " + rfuname);
 	// this should return multiple topics with all of the data necessary
 	// to update the various sections of the page for this station
-	client.send("presence/get/" + rfuname, '', 2, false);
+	client.send("xrouter/get/" + rfuname + "/config", '', 2, false);
 }
 
 function updatePresence(rfuname, online) {
@@ -341,7 +251,6 @@ function updatePresence(rfuname, online) {
 			button.className = "offline onlinebutton white";
 			button.style.color = "white";
 			document.getElementById(rfuname + "Online").innerHTML = rfuname + ":?";
-			//client.send("queue/cmd/" + rfuname + "/INQUEUE", "", 2, false);
 		}
 	}
 }
@@ -353,14 +262,15 @@ function launchRFU(rfuname) {
 	var tmp = document.getElementById(rfuname + "Online");
 	var cn = tmp.className;
 	if(cn.includes("offline")) return;
+	client.send("xrouter/get/" + rfuname + "/config", '', 2, false);
 	// here is where we would gather all of the pertinent
 	// data to fill the screen or bank
 }
 
 function makePresenceRow(rfuname, online) {
 	var table = document.getElementById("presence");
-    var row;
-    //console.log("rowcount:" + table.rows.length);
+    var row = 0;
+    console.log("rowcount:" + table.rows.length);
     var rowcount = table.rows.length;
     var useRow = 0;
     var colCount = 0;
@@ -387,11 +297,10 @@ function makePresenceRow(rfuname, online) {
             colCount = 0;
             useRow = 2;
         }
-        
     }
     console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
-    row = table.rows[useRow];
-    var onlinecell = row.insertCell(colCount);
+    row = table.rows[useRow]; // the row to append the new cell to
+    var onlinecell = row.insertCell(-1); // on the end
 	onlinecell.className = "prescell button";
 	var onlinebutton = document.createElement('button');
 	onlinebutton.id = rfuname + "Online";
@@ -407,33 +316,77 @@ function makePresenceRow(rfuname, online) {
 	onlinecell.appendChild(onlinebutton);
 }
 
-function makePortsRow(jsondata) {
-	var jason = JSON.parse(jsondata); // one row of data as a JSON object
-	var table = document.getElementById("portstable");
+function makePortsRows(jason) {
+	// jason is an array of port objects
+	count = jason.ports.length;
+	console.log("jason.ports.length: " + count)
+	// json is one row of data as a JSON object
+	console.log("jason: " + JSON.stringify(jason));
+	// jason is a ports object which is an array of object, so loop
+	// through the array and get at each object to create table row
+	table = document.getElementById("portstable");
     //console.log("rowcount:" + table.rows.length);
 	// number of rows BEFORE adding a new ports row
-    var rowcount = table.rows.length;
-    var colCount = 7; // we have 7 cells in each row
-    // make a new row for this port.  rowcount is the index of the next row
-	var row = table.insertRow(rowcount);
-    //console.log("row:" + row + " useRow:" + useRow + " colCount:" + colCount);
-    //row = table.rows[rowcount];
-	for (i = 0; i < colCount; i++) {
-		//console.log("make cell: " + i);
-    	var onlinecell = row.insertCell(i);
-		onlinecell.className = "prescell button";
-		onlinecell.style = 'font-family:Courier, monospace;';
-		// this is where the actual cell value would be gathered from MQTT data and set
-		switch(i) {
-		case 0: onlinecell.innerHTML = jason.port;break;
-		case 1: onlinecell.innerHTML = jason.type;break;
-		case 2: onlinecell.innerHTML = jason.descr;break;
-		case 3: onlinecell.innerHTML = jason.baud;break;
-		case 4: onlinecell.innerHTML = jason.mheard;break;
-		case 5: onlinecell.innerHTML = jason.l2;break;
-		case 6: onlinecell.innerHTML = "<a href=''>Stats</a>";break;
+    colCount = 6; // we have 6 cells in each row
+	for(j = 0; j < count; j++) {	
+	    // make a new row for this port.  rowcount is the index of the next row
+		var row = table.insertRow();
+    	console.log("make presence row: " + j);
+		//row = table.rows[rowcount];
+		for (i = 0; i < colCount; i++) {
+			//console.log("make cell: " + i);
+			var onlinecell = row.insertCell(i);
+			onlinecell.className = "prescell button";
+			onlinecell.style = 'font-family:Courier, monospace;';
+			// this is where the actual cell value would be gathered from MQTT data and set
+			switch(i) {
+			case 0: onlinecell.innerHTML = jason.ports[j].name + '';break;
+			case 1: onlinecell.innerHTML = jason.ports[j].type;break;
+			case 2: onlinecell.innerHTML = jason.ports[j].descr;break;
+			case 3: onlinecell.innerHTML = jason.ports[j].baud;break;
+			case 4: onlinecell.innerHTML = jason.ports[j].MHeard;break;
+			case 5: onlinecell.innerHTML = "<a href=''>Stats</a>";break;
+			}
 		}
-		//onlinecell.innerHTML = "cell: " + i; 
 	}
+}
+
+function makeMainRow(jason) {
+	// jason is already parsed JSON object
+	table = document.getElementById("maintable");
+	var x = table.rows[1].cells;
+	var styleit = 'font-family:Courier, monospace;border:1px solid gray'; 
+	x[0].style = styleit;
+	x[1].style = styleit;
+	x[2].style = styleit;
+	x[3].style = styleit;
+	x[4].style = styleit;
+	x[5].style = styleit;
+	x[6].style = styleit;
+	//x[0].style = 'font-family:Courier, monospace;';
+	//console.log("main: x" + x[0].innerHTML + ":" + jason.nodeAlias);
+	x[0].innerHTML = jason.nodeAlias + '';
+	x[1].innerHTML = jason.chatCall + '';
+	x[2].innerHTML = jason.chatAlias + '';
+	x[3].innerHTML = jason.qth + '';
+	x[4].innerHTML = jason.locator + '';
+	x[5].innerHTML = jason.lat + '';
+	x[6].innerHTML = jason.lon + '';	
+}
+
+function makeAddressRow(jason) {
+	// jason is already parsed JSON object
+	table = document.getElementById("addresstable");
+	var styleit = 'font-family:Courier, monospace;border:1px solid gray'; 
+	var a = table.rows[1].cells;
+	a[0].style = styleit;
+	a[1].style = styleit;
+	a[2].style = styleit;
+	a[3].style = styleit; 
+	//console.log("address: a" + a[0].innerHTML + ":" + jason.software.name);
+	a[0].innerHTML = jason.contact + '';
+	a[1].innerHTML = jason.comment + '';
+	a[2].innerHTML = jason.amprIP + '';
+	a[3].innerHTML = jason.software.name + " " +jason.software.version;	
 }
 // End Connectivity Functions

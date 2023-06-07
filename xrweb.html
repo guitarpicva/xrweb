@@ -16,34 +16,46 @@
 <!-- start fixed header -->
 <div id="topheader" class="topheader">
   &nbsp;<div class="menu scaps" onclick="openNav();">&#9776;</div>
-  <div id="linked" class="scaps">-</div>
+  
     <div style="display:inline-block;padding-right:4px;padding-left:4px;" class="scaps">
-    <button class="small white button" id="onlineInd" onclick="ctrlR();">-</button>
-    <!-- <button id="reload" class="small" onclick="reloadCICS();">Refresh</button> -->
-    <!--&nbsp;<span class="point8" id="ESN">ESN</span>&nbsp;- -->
-    &nbsp;<span class="point8" id="mename">Status</span>
+    <button class="small white button" id="onlineInd" onclick="ctrlR();"></button>
     </div> <!-- end reload button and ESN, name -->
 </div> <!-- end topheader -->
+
 <div class="pres">
   <table id="presence" class="pres">
     <!-- station buttons are created and inserted here across the top of the document -->    
   </table>
 </div>  
 
-<div id="ports" class="portlist">
-<!-- add the station's list of port definitions here -->
-<table id="portstable" class="portstable fixed">
-  <th>Port</th><th>Type</th><th>Descr</th><th>Baud</th><th>MHeard</th><th>L2</th><th>&nbsp;</th>
+<div id="mainconfig" class="mainconfig">
+  <table id="maintable" class="portstable fixed">
+  <tr><th>Alias</th><th>Chat Call</th><th>Chat Alias</th><th>QTH</th><th>Locator</th><th>Latitude</th><th>Longitude</th></tr>
+  <tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
 </table>
+</div>
+
+<div id="addresses" class="addresslist">
+  <table id="addresstable" class="portstable fixed">
+    <tr><th>Contact</th><th>Comment</th><th>ampr IP</th><th>Software Version</th></tr>
+    <tr><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+  </table>
+</div>
+
+<div id="ports" class="portlist">
+  <table id="portstable" class="portstable fixed">
+    <th>Port</th><th>Type</th><th>Descr</th><th>Baud</th><th>MHeard</th><th>&nbsp;</th>
+    <!-- add the station's list of port definitions here -->
+  </table>
 </div>
 
 <!-- start sidenav -->
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	<a id="showtrace" onclick="showtracechanged();closeNav();">toggle messaging trace</a>
-  <div>Station Callsign:<br/><input type="text" id="callsign" placeholder="Enter Station Callsign and SSID"></div>
+	<!--<a id="showtrace" onclick="showtracechanged();closeNav();">toggle messaging trace</a>-->
+  <!--<div>Station Callsign:<br/><input type="text" id="callsign" placeholder="Enter Station Callsign and SSID"></div>-->
   <div>Pass Phrase:<br/><input type="password" id="passphr" placeholder="Enter Pass Phrase"></div>
-	<a href="https://www.radcommsoft.com" onclick="alert('XRouter Web, &copy;&nbsp;2021&nbsp;GrizzWorks, LLC\n\nAll Rights Reserved')">About XRouter Web</a>
+	<a href="https://www.radcommsoft.com" onclick="alert('XRouter Web, &copy;&nbsp;2023&nbsp;GrizzWorks, LLC\n\nAll Rights Reserved')">About XRouter Web</a>
 	<a href="https://www.radcommsoft.com/contact" target="_blank">Contact</a>
 </div>
 <!-- end of the sidenav -->
