@@ -16,12 +16,13 @@ html,body {
 table {border:1px groove cornflowerblue;}
 table.pres {border:none;}
 th {padding-left:10px;padding-right:10px;font-weight:bold;font-variant:small-caps;border:none;font-size:0.75em;color:white;background-color:#303030;}
-td {text-align:center;vertical-align:center;border:none;flex-wrap: nowrap;}
+td {text-align:center;vertical-align:middle;border:none;flex-wrap: nowrap;}
 td.right {text-align:right;}
 td.center {text-align:center;}
 td.fixed {font-family:Courier, monospace;}
-td.prescell {border: 1px solid gray;width:32px; }
-.controltable {min-height:100px;position:fixed;left:0;top:100px;min-width:505px;max-width:505px;margin-left:auto;margin-right:auto;}
+td.prescell {border: none; width:32px;}
+
+/*.controltable {min-height:100px;position:fixed;left:0;top:100px;min-width:505px;max-width:505px;margin-left:auto;margin-right:auto;}*/
 
 button.onlinebutton {
   text-align:center;
@@ -33,7 +34,7 @@ button.onlinebutton {
   min-height:20px;
   max-height:20px;
   /* border:3px solid gray; */
-  vertical-align: center;
+  vertical-align: middle;
   }
 
 .white {color:white;font-weight:bold;}
@@ -69,10 +70,12 @@ button {
   color: 0e0e0e;color:white;
   padding: 1px 1px;
   text-align: center;
+  vertical-align: middle;
+  border-radius:5px;
   display: inline-block;
   font-size: 15px;
   min-width:55px;
-  min-height:37px;
+  min-height:32px;
   box-shadow: 2px 2px 1px #888888;
   font-family:Verdana, sans-serif;
 }
@@ -83,16 +86,16 @@ button.small {
   font-variant: none;
   display: inline-block;
   font-size: 12px;
-  min-width:60px;
-  max-width:60px;
+  min-width:50px;
+  max-width:50px;
   min-height:32x;
   max-height:32px;
-  vertical-align:center;
+  vertical-align:middle;
 }
 /* .button:hover {background-color: cornflowerblue;} */
 .button:active {
   background-color: cornflowerblue;
-  box-shadow: 0 2px #888;
+  box-shadow: 0 2px #777;
   transform: translateY(3px);
 }
 .onlineInd {height:24px;min-width:40px;font-weight:bold;color:white;background-color: cornflowerblue;}
@@ -170,16 +173,46 @@ div.traceclear { /* the mqtt trace clear button */
   position:relative;
 }
 
-div.portlist {
-  position:absolute;
+div.mainconfig {
+  position:fixed;
   top:140px;
   background-color:#e0e0e0;
   display:inline-block;
-  min-width:505px;
-  max-width:505px;
+  min-width:755px;
+  max-width:755px;
   width:100%;
-	min-height:250px;
-  max-height:250px;
+	min-height:50px;
+  max-height:125px;
+	overflow-x:auto;
+	overflow-y:auto;
+	border:1px solid gray;
+}
+
+div.addresslist {
+  position:fixed;
+  top:195px;
+  background-color:#e0e0e0;
+  display:inline-block;
+  min-width:755px;
+  max-width:755px;
+  width:100%;
+	min-height:50px;
+  max-height:125px;
+	overflow-x:auto;
+	overflow-y:auto;
+	border:1px solid gray;
+}
+
+div.portlist {
+  position:fixed;
+  top:275px;
+  background-color:#e0e0e0;
+  display:inline-block;
+  min-width:755px;
+  max-width:755px;
+  width:100%;
+	min-height:50px;
+  max-height:550px;
 	overflow-x:auto;
 	overflow-y:auto;
 	border:1px solid gray;
@@ -188,125 +221,6 @@ div.portlist {
 table.portstable {
   /*border:1px solid gray;*/
   padding:0;
-  max-width:500px;
-  min-width:500px;
+  max-width:750px;
+  min-width:750px;
 }
-
-pre.msgscroll {
-  position:relative;
-  bottom:0;
-  top:0;
-  left:0;
-  font-size:1em;
-  font-family:courier;
-  font-variant:none;
-  background-color:#e0e0e0;
-  color:black;
-  padding-left:3px;
-  margin-top: 0;
-  margin-bottom:0;
-  min-width:505px;
-  max-width: 505px;
-  margin-left:auto;
-  margin-right:auto;  
-  border-left:3px solid cornflowerblue;
-}
-
-div.msgcontrols {
-	position:absolute;
-  top:350px;
-  left:0;
-	min-width:505px;
-	max-width:505px;
-  min-height:60px;
-  max-height:60px;
-  width:100%;
-  padding:4px;
-	font-size:0.75em;
-	font-variant:none;
-	border:none;
-  background-color:#404040;
-}
-
-div.chatdiv {
-  position:fixed;
-  border:1px solid gray;
-  bottom:130px;
-  top:100px;
-  left:5px;
-  right:5px;
-  padding:0;
-  float:left;
-  min-width:500px;
-  max-width:500px;
-  min-height:170px;
-  overflow-y: auto;
-  overflow-x:auto;
-}
-pre.chatscroll {
-  position:relative;
-  left:5px;
-  top:0;
-  bottom:0;
-  right:0;
-  padding:0;
-  font-size:1em;
-  font-variant:none;
-  text-align:left;
-  background-color:#e0e0e0;
-  color:black;
-  margin-top:auto;
-  margin-right: auto;
-  margin-left: auto;
-  /* margin-bottom:100px; */
-  /* border:1px solid #c0c0c0; */
-}
-div.routelist {
-  position:fixed;
-  border:1px solid gray;
-  bottom:130px;
-  top:100px;
-  left:0;
-  padding:0;
-  max-width:495px;
-  min-width:495px;
-  min-height:170px;
-  overflow-y: auto;
-  overflow-x:auto;
-}
-
-.bottom {
-  position:fixed;
-  bottom:0;
-  left:0;
-  min-width:500px;
-  max-width:500px;
-  border-bottom:2px solid gray;
-  display:inline-block;
-  min-height:120px;
-}
-
-.routebottom {
-  position:fixed;
-  bottom:0;
-  left:0;
-  min-width:495px;
-  max-width:495px;
-  border-bottom:2px solid gray;
-  display:inline-block;
-  min-height:120px;
-}
-
-  .hide {
-	display:none;
-  visibility:inherit;
-}
-/* used in message list display */
-
- .tmlist {
-	padding:3px 2px;
-	text-align:left;
-	font-size:0.75em;
-	/*white-space:nowrap;*/
-} 
-/* end list display */
