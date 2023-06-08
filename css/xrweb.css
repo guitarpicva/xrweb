@@ -71,7 +71,7 @@ button {
   padding: 1px 1px;
   text-align: center;
   vertical-align: middle;
-  border-radius:5px;
+  border-radius:50%;
   display: inline-block;
   font-size: 15px;
   min-width:55px;

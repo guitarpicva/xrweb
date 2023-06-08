@@ -105,7 +105,7 @@ function onMessageArrived(message) {
 		else {
 			const fields = topic.split('/');
 			var rfuname = fields[2];
-			console.log("presence stn: " + rfuname)
+			//console.log("presence stn: " + rfuname)
 			// avoid making a button for one that is already there!!!
 			if(document.getElementById(rfuname + "Online") == null)
 				makePresenceRow(rfuname + '', true);
@@ -122,6 +122,16 @@ function onMessageArrived(message) {
 			makePortsRows(jason);			
 		}
 	}	
+	else if(topic.includes("xrouter/event/")) {
+		// we got an event which may include a presence indication
+		console.log("event: " + topic + " : " + res);
+		if(topic.includes("/status")) {
+			var parts = topic.split("/");
+			var stat = res == "online";
+			if(document.getElementById(parts[2] + "Online") == null)
+				makePresenceRow(parts[2], stat);
+		}
+	}
 }
 
 function openNav() {
@@ -337,7 +347,7 @@ function makePortsRows(jason) {
 			//console.log("make cell: " + i);
 			var onlinecell = row.insertCell(i);
 			onlinecell.className = "prescell button";
-			onlinecell.style = 'font-family:Courier, monospace;';
+			onlinecell.style = 'font-family:Courier, monospace;border:1px solid gray;';
 			// this is where the actual cell value would be gathered from MQTT data and set
 			switch(i) {
 			case 0: onlinecell.innerHTML = jason.ports[j].name + '';break;
