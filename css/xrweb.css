@@ -45,7 +45,7 @@ button.onlinebutton {
 .notlinked {background-color:cornflowerblue;color:white;}
 
 div.pres {
-  position:absolute;
+  /*position:absolute;*/
   left:0;
   top:45px;
 }
@@ -95,7 +95,7 @@ button.small {
 /* .button:hover {background-color: cornflowerblue;} */
 .button:active {
   background-color: cornflowerblue;
-  box-shadow: 0 2px #777;
+  box-shadow: 0 2px #555;
   transform: translateY(3px);
 }
 .onlineInd {height:24px;min-width:40px;font-weight:bold;color:white;background-color: cornflowerblue;}
@@ -133,7 +133,7 @@ footer {
 }
 
 .topheader {
-  display: inline-block;
+  /*display: inline-block;*/
   position:fixed;
   background-color: #505050;color:white;
   box-shadow: 2px 2px 1px #303030;
@@ -148,36 +148,27 @@ footer {
 #other1 {display:inline}
 
 div.scroll { /* the hidden mqtt trace div */
-  /*position: relative;*/
-  position: fixed;
-  right:10px;
-  top:50px;
-	display:hidden;
+  left:15px;  
 	font-size:0.75em;
-	font-family:courier;
+	font-family:'Courier New', Courier, monospace;
 	font-variant:none;
 	overflow-x: hidden;
 	overflow-y: auto;
-	padding: 3px;
+	padding: 5px, 5px;
 	background-color:#303030;
 	color:white;
 	min-height:450px;
 	max-height:750px;
-	min-width:400px;
-	max-width:400px;
+	min-width:755px;
+	max-width:755px;
 	border:1px solid black;
 	resize:both;
 }
 
-div.traceclear { /* the mqtt trace clear button */
-  position:relative;
-}
-
 div.mainconfig {
-  position:fixed;
-  top:140px;
+  /*top:140px;display:inline-block;
+  */
   background-color:#e0e0e0;
-  display:inline-block;
   min-width:755px;
   max-width:755px;
   width:100%;
@@ -189,10 +180,11 @@ div.mainconfig {
 }
 
 div.addresslist {
-  position:fixed;
+  /*position:fixed;
   top:195px;
-  background-color:#e0e0e0;
   display:inline-block;
+  */
+  background-color:#e0e0e0;
   min-width:755px;
   max-width:755px;
   width:100%;
@@ -204,10 +196,10 @@ div.addresslist {
 }
 
 div.portlist {
-  position:fixed;
+  /*position:fixed;
+  display:inline-block;*/
   top:275px;
-  background-color:#e0e0e0;
-  display:inline-block;
+  background-color:#e0e0e0;  
   min-width:755px;
   max-width:755px;
   width:100%;

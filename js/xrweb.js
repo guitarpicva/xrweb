@@ -69,7 +69,7 @@ function onConnectionLost(responseObject) {
 		document.getElementById("div1").innerHTML += "<br>Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage;
 		printTrace("Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage);
 	}
-	document.getElementById("onlineInd").innerHTML = "OFFLINE";
+	//document.getElementById("onlineInd").innerHTML = "OFFLINE";
 	document.getElementById("onlineInd").style.backgroundColor = "darkred";
 	intervalID = setInterval(checkConnection, 5000);
 }
@@ -124,12 +124,15 @@ function onMessageArrived(message) {
 	}	
 	else if(topic.includes("xrouter/event/")) {
 		// we got an event which may include a presence indication
-		console.log("event: " + topic + " : " + res);
+		//console.log("event: " + topic + " : " + res);
 		if(topic.includes("/status")) {
 			var parts = topic.split("/");
 			var stat = res == "online";
 			if(document.getElementById(parts[2] + "Online") == null)
 				makePresenceRow(parts[2], stat);
+		}
+		else {
+			document.getElementById("trace").innerHTML += "<br>" + topic + " : " + res;
 		}
 	}
 }
@@ -259,7 +262,7 @@ function updatePresence(rfuname, online) {
 		}
 		else {
 			button.className = "offline onlinebutton white";
-			button.style.color = "white";
+			//button.style.color = "white";
 			document.getElementById(rfuname + "Online").innerHTML = rfuname + ":?";
 		}
 	}
@@ -308,7 +311,7 @@ function makePresenceRow(rfuname, online) {
             useRow = 2;
         }
     }
-    console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
+    //console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
     row = table.rows[useRow]; // the row to append the new cell to
     var onlinecell = row.insertCell(-1); // on the end
 	onlinecell.className = "prescell button";
@@ -322,8 +325,13 @@ function makePresenceRow(rfuname, online) {
 		onlinebutton.className = "onlinebutton offline white";
 	}
 	onlinebutton.onclick = function(){refreshRFU(rfuname);};
-	onlinebutton.ondblclick = function(){launchRFU(rfuname);};
+	//onlinebutton.ondblclick = function(){launchRFU(rfuname);};
+	//console.log("new presence: " + onlinebutton.id);
 	onlinecell.appendChild(onlinebutton);
+	if(rowcount == 0 && colCount == 0) {
+		// display the first station in the tables
+		refreshRFU(rfuname);
+	}
 }
 
 function makePortsRows(jason) {
