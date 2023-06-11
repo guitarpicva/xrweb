@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/w3.css" type="text/css">
 <link rel="stylesheet" href="css/sidenav.css" type="text/css">
-<link rel="stylesheet" href="css/xrweb.css" type="text/css">
+
 
 <script src="js/paho-mqtt-min.js" type="text/javascript"></script>
 <script src="js/xrweb.js" type="text/javascript"></script>
@@ -13,60 +13,50 @@
 <title>HFA Web</title>
 </head>
 <body onload="loadSettings();">
+  <!-- Sidebar -->
+<div class="w3-sidebar w3-teal w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+  <button onclick="closeNav()" class="w3-bar-item w3-large">Close &times;</button>
+  <div>Pass Phrase:<br/><input type="password" id="passphr" placeholder="Enter Pass Phrase"></div>
+	<a href="#top" onclick="alert('XRouter Web, &copy;&nbsp;2023&nbsp;GrizzWorks, LLC\n\nAll Rights Reserved')">About XRouter Web</a>
+	<a href="https://www.radcommsoft.com/contact" target="_blank">Contact</a>
+</div>
 <!-- start fixed header -->
-<div id="topheader" class="topheader">
-  &nbsp;<div class="menu scaps" onclick="openNav();">&#9776;</div>
-  
-    <div style="display:inline-block;padding-right:4px;padding-left:4px;" class="scaps">
-    <button class="small white button" id="onlineInd" onclick="ctrlR();"></button>
-    </div> <!-- end reload button and ESN, name -->
+<div id="topheader" class="w3-container w3-teal">
+  <!--<div style="display:inline-block;font-weight:bold;cursor:pointer;font-size:1.5em;" onclick="openNav();">&#9776;</div>-->
+  <span class="w3-cell w3-medium" onclick="openNav();">&nbsp;
+    &#9776;&nbsp;&nbsp;
+        <button class="w3-button w3-cell w3-red w3-round-xlarge" id="onlineInd" onclick="ctrlR();">MQTT</button>
+    <!--</div> <!-- end reload button and ESN, name -->
 </div> <!-- end topheader -->
 
 <div class="pres">
-  <table id="presence">
+  <table id="presence" style="border:none;">
     <!-- station buttons are created and inserted here across the top of the document -->    
   </table>
 </div>  
 
-<div id="mainconfig" class="mainconfig">
-  <table id="maintable" class="portstable fixed">
-  <tr><th>Alias</th><th>Chat Call</th><th>Chat Alias</th><th>QTH</th><th>Locator</th><th>Latitude</th><th>Longitude</th></tr>
+<div class="w3-panel w3-responsive">
+  <table id="maintable" class="w3-table w3-striped w3-small">
+  <tr class="w3-dark-grey"><th>Alias</th><th>Chat Call</th><th>Chat Alias</th><th>QTH</th><th>Locator</th><th>Latitude</th><th>Longitude</th></tr>
   <tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
 </table>
 </div>
-
-<div id="addresses" class="addresslist">
-  <table id="addresstable" class="portstable fixed">
-    <tr><th>Contact</th><th>Comment</th><th>ampr IP</th><th>Software Version</th></tr>
+<div class="w3-panel w3-responsive"><!--portstable fixed -->
+  <table id="addresstable" class="w3-table w3-striped w3-small">
+    <tr class="w3-dark-grey"><th>Contact</th><th>Comment</th><th>ampr IP</th><th>Version</th></tr>
     <tr><td>0</td><td>1</td><td>2</td><td>3</td></tr>
   </table>
 </div>
-
-<div id="ports" class="portlist">
-  <table id="portstable" class="portstable fixed">
-    <th>Port</th><th>Type</th><th>Descr</th><th>Baud</th><th>MHeard</th><th>&nbsp;</th>
+<div class="w3-panel w3-responsive">
+<table id="portstable" class="w3-table w3-striped w3-small">
+    <tr class="w3-dark-grey"><th>Port</th><th>Type</th><th>Descr</th><th>Baud</th><th>MHeard</th><th>&nbsp;</th></tr>
     <!-- add the station's list of port definitions here -->
   </table>
 </div>
-<div id="trace" class="scroll">
-  
-</div>
-<!-- start sidenav -->
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	<!--<a id="showtrace" onclick="showtracechanged();closeNav();">toggle messaging trace</a>-->
-  <!--<div>Station Callsign:<br/><input type="text" id="callsign" placeholder="Enter Station Callsign and SSID"></div>-->
-  <div>Pass Phrase:<br/><input type="password" id="passphr" placeholder="Enter Pass Phrase"></div>
-	<a href="https://www.radcommsoft.com" onclick="alert('XRouter Web, &copy;&nbsp;2023&nbsp;GrizzWorks, LLC\n\nAll Rights Reserved')">About XRouter Web</a>
-	<a href="https://www.radcommsoft.com/contact" target="_blank">Contact</a>
-</div>
-<!-- end of the sidenav -->
 
-<!-- the hidden mqtt trace area -->
-<div class="scroll" id="div1" hidden="true"></div>
-<!-- <div hidden="true" id="buttondiv" class="traceclear" >
-<button id="clearButton" class="small button" onclick="document.getElementById('div1').innerHTML = '';">Clear</button>
-</div> -->
-<!-- end hidden mqtt trace area -->
+<div class="w3-panel w3-border w3-responsive">
+  <p id="trace" class="w3-container w3-monospace w3-small"></p>
+</div
+
 </body>
 </html>

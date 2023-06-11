@@ -57,8 +57,7 @@ function onConnect() {
 	//document.getElementById("chatarea").innerHTML = tmp;
 	// subscribe to all xrouter topics for testing
 	client.subscribe("xrouter/#");
-	document.getElementById("onlineInd").innerHTML = "MQTT";
-	document.getElementById("onlineInd").style.backgroundColor = "cornflowerblue";
+	document.getElementById("onlineInd").className = "w3-button w3-blue w3-round-xlarge";
 }
 
 // called when the client loses its connection
@@ -66,11 +65,12 @@ function onConnectionLost(responseObject) {
 	console.log("onConnectionLost...");
 	if (responseObject.errorCode !== 0) {
 		console.log("MQTT Connection Lost" + responseObject.errorMessage);
-		document.getElementById("div1").innerHTML += "<br>Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage;
+		var currtext = document.getElementById("trace").innerHTML;
+		document.getElementById("trace").innerHTML = getDateTimeStamp() + " - Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage + "<BR>";
 		printTrace("Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage);
 	}
 	//document.getElementById("onlineInd").innerHTML = "OFFLINE";
-	document.getElementById("onlineInd").style.backgroundColor = "darkred";
+	document.getElementById("onlineInd").className = "w3-button w3-red w3-round-xlarge";
 	intervalID = setInterval(checkConnection, 5000);
 }
 
@@ -82,11 +82,11 @@ function onMessageArrived(message) {
 	var res = message.payloadString;
 	var topic = message.destinationName;
 	var rfu = topic.split("/")[2] + '';
-	if(!document.getElementById("div1").hidden) {		
-		//console.log(topic + ":" + res);
-		document.getElementById("div1").innerHTML += "<br>" + topic + ":" + res;
-		document.getElementById("div1").scroll += 40;
-	}
+	// if(!document.getElementById("div1").hidden) {		
+	// 	//console.log(topic + ":" + res);
+	// 	document.getElementById("div1").innerHTML += "<br>" + topic + ":" + res;
+	// 	document.getElementById("div1").scroll += 40;
+	// }
 	if(topic.includes("xrouter/config")) {
 		jason = JSON.parse(res);
 		var table = document.getElementById("portstable");			
@@ -113,9 +113,9 @@ function onMessageArrived(message) {
 			makeAddressRow(jason);
 			// full config object which also includes "ports" object
 			max = table.rows.length; // before removing any rows!
-			console.log("full max rows: " + max);
+			//console.log("full max rows: " + max);
 			for(i=1;i < max; i++) {
-				console.log("full remove row..." + i);
+				//console.log("full remove row..." + i);
 				table.rows[1].remove();
 			}
 			jason = JSON.parse(res);
@@ -130,20 +130,37 @@ function onMessageArrived(message) {
 			var stat = res == "online";
 			if(document.getElementById(parts[2] + "Online") == null)
 				makePresenceRow(parts[2], stat);
+			var currtext = document.getElementById("trace").innerHTML;
+			document.getElementById("trace").innerHTML = getDateTimeStamp() + " - " + topic + " : " + res + "<BR>" + currtext;
 		}
 		else {
-			document.getElementById("trace").innerHTML += "<br>" + topic + " : " + res;
+			var currtext = document.getElementById("trace").innerHTML;
+			document.getElementById("trace").innerHTML = getDateTimeStamp() + " - " + topic + " : " + res + "<BR>" + currtext;
+		}
+	}
+	else if(topic.includes("xrouter/status")) {
+		if(topic.includes("/routes")) {
+			//console.log("ROUTES: " + res);
+			var routes = JSON.parse(res);
+			var count = routes.length; // num of route entries for loop
+			var to_trace = '';
+			for (i = 0; i < count; i++) {				
+				to_trace += "Route to: " + routes[i].call + " via port: " + routes[i].port + "<BR>";
+			}
+			var currtext = document.getElementById("trace").innerHTML;
+			document.getElementById("trace").innerHTML = to_trace + currtext;
 		}
 	}
 }
 
 function openNav() {
-	document.getElementById("mySidenav").style.display = "block";
-	document.getElementById("passphr").value = localStorage.getItem("passphrase");
+	// document.getElementById("mySidenav").style.display = "block";
+	// document.getElementById("passphr").value = localStorage.getItem("passphrase");
+	document.getElementById("mySidebar").style.display = "block";
 }
 
 function closeNav() {
-	document.getElementById("mySidenav").style.display = "none";
+	document.getElementById("mySidebar").style.display = "none";
 	// save settings values to localStorage object
 	tmp = document.getElementById("passphr").value;
 	passphrase = tmp + '';
@@ -165,47 +182,22 @@ function getTimeStamp() {
 	return ts;
 }
 
-
-function updateOther() {
-	//console.log("update other");
-	document.getElementById("other").value = document.getElementById("other1").value;
-}
-
-// function updateOther1() {
-// 	//console.log("update other1");
-// 	document.getElementById("other1").value = document.getElementById("other").value;
-// }
-
-function discbuttonclicked() {
-	client.send('rfu/cmd/' + me + "/HANGUP", '', 2, false);
-}
-
 function showtracechanged() {
 	// Toggle the trace div
-	ishidden = document.getElementById("div1").hidden;
+	ishidden = document.getElementById("trace").hidden;
 	//console.log("show trace? " + ishidden);
 	
-	document.getElementById("div1").hidden = !ishidden;
+	document.getElementById("trace").hidden = !ishidden;
 	//document.getElementById("buttondiv").hidden = !ishidden;
 }
 
 function getDateTimeStamp() {
 	// update the ui
 	//Date: Sat, 26 Dec 2020 14:52:40 -0500 is the RFC-822 header format
-	utc = new Date();
-
-	ts = utc + ''; // make it a string first
-	ts = ts.substr(0, ts.indexOf('(') - 1); // truncate worded time zone
-	//console.log("ts:" + ts);
-	parts = ts.split(' ');
-	out = parts[0] + ', ';
-	out += parts[1] + ' ';
-	out += parts[2] + ' ';
-	out += parts[3] + ' ';
-	out += parts[4] + ' ';
-	out += parts[5].substr(3);
-	document.getElementById("TimeStamp").innerHTML = out;
-	//console.log("ts:" + out);
+	const utc = new Date();	
+	var out = '';
+	out += utc.getUTCDate() + '-' + utc.getUTCHours() + ':' + utc.getUTCMinutes() + ':' + utc.getUTCSeconds() + '.' + utc.getUTCMilliseconds();
+	//console.log("out: " + out);
 	return out;
 }
 
@@ -221,6 +213,7 @@ function loadSettings() {
 		openNav();
 	}
 	// TEST
+	getDateTimeStamp();
 	//makePresenceRow(me, false);
 	//launchRFU(me);
 	
@@ -229,15 +222,13 @@ function loadSettings() {
 }
 
 function updateOnlineStatus() {
-	//document.getElementById("onlineInd").innerHTML.style.background = "lawngreen";
-	document.getElementById("onlineInd").innerHTML.style.background = "cornflowerblue";
-	console.log("online:" + document.getElementById("onlineInd").style.backgroundColor);
-	document.getElementById("onlineInd").innerHTML = "ONLINE";
+	//document.getElementById("onlineInd").innerHTML.style.background = "cornflowerblue";
+	document.getElementById("onlineInd").className = "w3-blue";
+	//console.log("online:" + document.getElementById("onlineInd").style.backgroundColor);
 }
 
 function updateOfflineStatus() {
-	document.getElementById("onlineInd").innerHTML.style.background = "darkred";
-	document.getElementById("onlineInd").innerHTML = "OFFINE";
+	document.getElementById("onlineInd").className = "w3-red";
 }
 
 function ctrlR() {
@@ -257,11 +248,11 @@ function updatePresence(rfuname, online) {
 	var button = document.getElementById(rfuname + "Online");
 	if(button != null) {
 		if(online) {
-			button.className = "online onlinebutton white";
+			button.className = "w3-blue";
             //client.send("presence/ind/" + rfuname + "/INQUEUE", '', 2, false);
 		}
 		else {
-			button.className = "offline onlinebutton white";
+			button.className = "w3-red";
 			//button.style.color = "white";
 			document.getElementById(rfuname + "Online").innerHTML = rfuname + ":?";
 		}
@@ -274,7 +265,7 @@ function launchRFU(rfuname) {
 	me = rfuname;
 	var tmp = document.getElementById(rfuname + "Online");
 	var cn = tmp.className;
-	if(cn.includes("offline")) return;
+	if(cn.includes("dark-red")) return;
 	client.send("xrouter/get/" + rfuname + "/config", '', 2, false);
 	// here is where we would gather all of the pertinent
 	// data to fill the screen or bank
@@ -314,22 +305,22 @@ function makePresenceRow(rfuname, online) {
     //console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
     row = table.rows[useRow]; // the row to append the new cell to
     var onlinecell = row.insertCell(-1); // on the end
-	onlinecell.className = "prescell button";
+	//onlinecell.className = "prescell button";
 	var onlinebutton = document.createElement('button');
 	onlinebutton.id = rfuname + "Online";
 	onlinebutton.innerHTML = (rfuname);
 	if(online) {
-		onlinebutton.className = "onlinebutton online white";
+		onlinebutton.className = "w3-button w3-teal w3-round-xlarge";
 	}
 	else {
-		onlinebutton.className = "onlinebutton offline white";
+		onlinebutton.className = "w3-button w3-red w3-round-xlarge";
 	}
 	onlinebutton.onclick = function(){refreshRFU(rfuname);};
 	//onlinebutton.ondblclick = function(){launchRFU(rfuname);};
 	//console.log("new presence: " + onlinebutton.id);
 	onlinecell.appendChild(onlinebutton);
 	if(rowcount == 0 && colCount == 0) {
-		// display the first station in the tables
+		// display the first station in the table
 		refreshRFU(rfuname);
 	}
 }
@@ -337,9 +328,9 @@ function makePresenceRow(rfuname, online) {
 function makePortsRows(jason) {
 	// jason is an array of port objects
 	count = jason.ports.length;
-	console.log("jason.ports.length: " + count)
+	//console.log("jason.ports.length: " + count)
 	// json is one row of data as a JSON object
-	console.log("jason: " + JSON.stringify(jason));
+	//console.log("jason: " + JSON.stringify(jason));
 	// jason is a ports object which is an array of object, so loop
 	// through the array and get at each object to create table row
 	table = document.getElementById("portstable");
@@ -349,7 +340,7 @@ function makePortsRows(jason) {
 	for(j = 0; j < count; j++) {	
 	    // make a new row for this port.  rowcount is the index of the next row
 		var row = table.insertRow();
-    	console.log("make presence row: " + j);
+    	//console.log("make ports row: " + j);
 		//row = table.rows[rowcount];
 		for (i = 0; i < colCount; i++) {
 			//console.log("make cell: " + i);
@@ -363,10 +354,15 @@ function makePortsRows(jason) {
 			case 2: onlinecell.innerHTML = jason.ports[j].descr;break;
 			case 3: onlinecell.innerHTML = jason.ports[j].baud;break;
 			case 4: onlinecell.innerHTML = jason.ports[j].MHeard;break;
-			case 5: onlinecell.innerHTML = "<a href=''>Stats</a>";break;
+			case 5: onlinecell.innerHTML = "<a href='javascript:displayRoutes()'>Routes</a>";break;
 			}
 		}
 	}
+}
+
+function displayRoutes() {
+	console.log("display routes!");
+	client.send("xrouter/get/" + me + "/routes", '', 2, false);
 }
 
 function makeMainRow(jason) {
@@ -381,7 +377,6 @@ function makeMainRow(jason) {
 	x[4].style = styleit;
 	x[5].style = styleit;
 	x[6].style = styleit;
-	//x[0].style = 'font-family:Courier, monospace;';
 	//console.log("main: x" + x[0].innerHTML + ":" + jason.nodeAlias);
 	x[0].innerHTML = jason.nodeAlias + '';
 	x[1].innerHTML = jason.chatCall + '';
