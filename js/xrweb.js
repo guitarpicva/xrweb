@@ -57,7 +57,7 @@ function onConnect() {
 	//document.getElementById("chatarea").innerHTML = tmp;
 	// subscribe to all xrouter topics for testing
 	client.subscribe("xrouter/#");
-	document.getElementById("onlineInd").className = "w3-button w3-blue w3-round-xlarge";
+	document.getElementById("onlineInd").className = "w3-button w3-blue";
 }
 
 // called when the client loses its connection
@@ -70,7 +70,7 @@ function onConnectionLost(responseObject) {
 		printTrace("Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage);
 	}
 	//document.getElementById("onlineInd").innerHTML = "OFFLINE";
-	document.getElementById("onlineInd").className = "w3-button w3-red w3-round-xlarge";
+	document.getElementById("onlineInd").className = "w3-button w3-red";
 	intervalID = setInterval(checkConnection, 5000);
 }
 
@@ -180,6 +180,19 @@ function getTimeStamp() {
 	month = (utc.getUTCMonth() + 1 + '').padStart(2, 0);//+ year + "-" + month + "-" exit
 	ts = "[" + (utc.getUTCDate() + '').padStart(2, 0) + " " + (utc.getUTCHours() + '').padStart(2, 0) + ":" + (utc.getUTCMinutes() + '').padStart(2, 0) + "] ";
 	return ts;
+}
+
+function hideShowTrace(id) {
+    var x = document.getElementById(id);
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+
+function openChat() {
+	console.log("Open the chat page now!");
 }
 
 function showtracechanged() {
@@ -340,7 +353,7 @@ function makePortsRows(jason) {
 	for(j = 0; j < count; j++) {	
 	    // make a new row for this port.  rowcount is the index of the next row
 		var row = table.insertRow();
-    	//console.log("make ports row: " + j);
+		//console.log("make ports row: " + j);
 		//row = table.rows[rowcount];
 		for (i = 0; i < colCount; i++) {
 			//console.log("make cell: " + i);
