@@ -22,10 +22,10 @@
 </div>
 <!-- start fixed header -->
 <div id="topheader" class="w3-bar w3-teal">
-  <!--<div style="display:inline-block;font-weight:bold;cursor:pointer;font-size:1.5em;" onclick="openNav();">&#9776;</div>-->
-  <button class="w3-bar-item w3-large w3-teal" id="sidebar" onclick="openNav();">&#9776</button>
-  <button class="w3-bar-item w3-red" id="onlineInd" onclick="ctrlR();">MQTT</button>
-  <button class="w3-bar-item w3-blue" id="chatpage" onclick="openChat();">Chat Page</button>
+  <button class="w3-bar-item w3-large" id="sidebar" onclick="openNav();">&#9776</button>
+  <button class="w3-bar-item w3-large" id="maintab" onclick="openTab('main');">Main</button>
+  <button class="w3-bar-item w3-large" id="chattab" onclick="openTab('chat');">Chat Page</button>
+  <!--<button class="w3-bar-item w3-red" id="onlineInd" onclick="ctrlR();">MQTT</button>-->
 </div> <!-- end topheader -->
 
 <div class="pres">
@@ -34,26 +34,35 @@
   </table>
 </div>  
 
-<div class="w3-panel w3-responsive">
-  <table id="maintable" class="w3-table w3-striped w3-small">
-  <tr class="w3-dark-grey w3-border-left w3-border-dark-gray"><th>Alias</th><th>Chat Call</th><th>Chat Alias</th><th>QTH</th><th>Locator</th><th>Latitude</th><th>Longitude</th></tr>
-  <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-</table>
-</div>
-<div class="w3-panel w3-responsive"><!--portstable fixed -->
-  <table id="addresstable" class="w3-table w3-striped w3-small">
-    <tr class="w3-dark-grey w3-border-left w3-border-dark-gray"><th>Contact</th><th>Comment</th><th>ampr IP</th><th>Version</th></tr>
-    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<!-- main pane -->
+<div class="w3-panel w3-responsive tabswitch" id="main">
+  <div class="w3-panel w3-responsive">
+    <table id="maintable" class="w3-table w3-striped w3-small">
+    <tr class="w3-dark-grey w3-border-left w3-border-dark-gray"><th>Alias</th><th>Chat Call</th><th>Chat Alias</th><th>QTH</th><th>Locator</th><th>Latitude</th><th>Longitude</th></tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
   </table>
+  </div>
+  <div class="w3-panel w3-responsive"><!--portstable fixed -->
+    <table id="addresstable" class="w3-table w3-striped w3-small">
+      <tr class="w3-dark-grey w3-border-left w3-border-dark-gray"><th>Contact</th><th>Comment</th><th>ampr IP</th><th>Version</th></tr>
+      <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </table>
+  </div>
+  <div class="w3-panel w3-responsive">
+  <table id="portstable" class="w3-table w3-striped w3-small">
+      <tr class="w3-dark-grey w3-border-left w3-border-dark-gray"><th>Port</th><th>Type</th><th>Descr</th><th>Baud</th><th>MHeard</th><th>&nbsp;</th></tr>
+      <!-- add the station's list of port definitions here -->
+    </table>
+  </div>
 </div>
-<div class="w3-panel w3-responsive">
-<table id="portstable" class="w3-table w3-striped w3-small">
-    <tr class="w3-dark-grey w3-border-left w3-border-dark-gray"><th>Port</th><th>Type</th><th>Descr</th><th>Baud</th><th>MHeard</th><th>&nbsp;</th></tr>
-    <!-- add the station's list of port definitions here -->
-  </table>
+<!-- end main pane -->
+<!-- chat pane -->
+<div id="chat" class="w3-panel w3-teal tabswitch" style="display:none">
+  <p id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small">chat pane</p>
 </div>
+<!-- end chat pane -->
 
-<button onclick="hideShowTrace('tracediv')" class="w3-button w3-block w3-left-align">
+<button onclick="hideShowTrace('tracediv');" class="w3-button w3-block w3-grey w3-left-align">
   Hide/Show Trace</button>
 <div id="tracediv" class="w3-panel w3-border w3-responsive w3-hide">
   <p id="trace" class="w3-container w3-dark-grey w3-monospace w3-small"></p>

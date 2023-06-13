@@ -49,20 +49,19 @@ client.connect({useSSL:true, onSuccess: onConnect});
 // called when the client connects
 function onConnect() {
 	clearInterval(intervalID);
-	console.log("onConnect...");
+	console.log("onConnect..." + document.getElementById("sidebar").className);
 	// Once a connection has been made, make subscriptions
 	me = localStorage.getItem("uniquename");
 	tmp = "Connected to " + ipaddress;
-	//document.getElementById("div1").innerHTML = tmp;
-	//document.getElementById("chatarea").innerHTML = tmp;
 	// subscribe to all xrouter topics for testing
 	client.subscribe("xrouter/#");
-	document.getElementById("onlineInd").className = "w3-button w3-blue";
+	document.getElementById("sidebar").className.replace(" w3-red", "");
+	document.getElementById("sidebar").className += " w3-teal";
 }
 
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
-	console.log("onConnectionLost...");
+	console.log("onConnectionLost..." + document.getElementById("sidebar").className);
 	if (responseObject.errorCode !== 0) {
 		console.log("MQTT Connection Lost" + responseObject.errorMessage);
 		var currtext = document.getElementById("trace").innerHTML;
@@ -70,7 +69,8 @@ function onConnectionLost(responseObject) {
 		printTrace("Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage);
 	}
 	//document.getElementById("onlineInd").innerHTML = "OFFLINE";
-	document.getElementById("onlineInd").className = "w3-button w3-red";
+	document.getElementById("sidebar").className.replace(" w3-teal", "");
+	document.getElementById("sidebar").className += " w3-red";
 	intervalID = setInterval(checkConnection, 5000);
 }
 
@@ -169,6 +169,15 @@ function closeNav() {
 	// me = tmp; // my unique ID, the viewed station
 }
 
+function openTab(tabName) {
+	var i;
+	var x = document.getElementsByClassName("tabswitch");
+	for (i = 0; i < x.length; i++) {
+	  x[i].style.display = "none";
+	}
+	document.getElementById(tabName).style.display = "block";
+  }
+
 function printTrace(toPrint) {
 	console.log("Print trace:" + toPrint);
 }
@@ -190,10 +199,6 @@ function hideShowTrace(id) {
       x.className = x.className.replace(" w3-show", "");
     }
   }
-
-function openChat() {
-	console.log("Open the chat page now!");
-}
 
 function showtracechanged() {
 	// Toggle the trace div
@@ -236,12 +241,14 @@ function loadSettings() {
 
 function updateOnlineStatus() {
 	//document.getElementById("onlineInd").innerHTML.style.background = "cornflowerblue";
-	document.getElementById("onlineInd").className = "w3-blue";
+	document.getElementById("sidebar").className.replace(" w3-red", "");
+	document.getElementById("sidebar").className += " w3-teal";
 	//console.log("online:" + document.getElementById("onlineInd").style.backgroundColor);
 }
 
 function updateOfflineStatus() {
-	document.getElementById("onlineInd").className = "w3-red";
+	document.getElementById("sidebar").className.replace(" w3-teal", "");
+	document.getElementById("sidebar").className += " w3-red";
 }
 
 function ctrlR() {
