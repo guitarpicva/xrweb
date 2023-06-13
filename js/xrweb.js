@@ -133,6 +133,17 @@ function onMessageArrived(message) {
 			var currtext = document.getElementById("trace").innerHTML;
 			document.getElementById("trace").innerHTML = getDateTimeStamp() + " - " + topic + " : " + res + "<BR>" + currtext;
 		}
+		else if(topic.includes("/chat/")) {
+			// chat events need to hit the chattrace element
+			var parts = topic.split("/");
+			var type = parts[4] + '';
+			var jason = JSON.parse(res);
+			var currtext = document.getElementById("chattrace").innerHTML;
+			if(type === "join")
+				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " Chat " + type + " " + jason.user + " to channel " + jason.channel + " as: " + jason.name + "<br>" + currtext;
+			else if(type === "msg")
+				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text + "<br>" + currtext;
+		}
 		else {
 			var currtext = document.getElementById("trace").innerHTML;
 			document.getElementById("trace").innerHTML = getDateTimeStamp() + " - " + topic + " : " + res + "<BR>" + currtext;
