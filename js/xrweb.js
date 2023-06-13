@@ -169,14 +169,22 @@ function closeNav() {
 	// me = tmp; // my unique ID, the viewed station
 }
 
-function openTab(tabName) {
-	var i;
-	var x = document.getElementsByClassName("tabswitch");
-	for (i = 0; i < x.length; i++) {
-	  x[i].style.display = "none";
-	}
-	document.getElementById(tabName).style.display = "block";
+function openTab(evt, tabName) {
+	var i, x, tablinks;
+  x = document.getElementsByClassName("tabswitch");
+  console.log("tabswitch: " + x);
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
   }
+  tabbuttons = document.getElementsByClassName("tabbutton");
+  for (i = 0; i < x.length; i++) {
+    tabbuttons[i].className = tabbuttons[i].className.replace(" w3-red", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " w3-red";
+}
+
+
 
 function printTrace(toPrint) {
 	console.log("Print trace:" + toPrint);
@@ -230,8 +238,9 @@ function loadSettings() {
 	if(passphrase === '') {
 		openNav();
 	}
+	document.getElementById("maintab").click();
 	// TEST
-	getDateTimeStamp();
+	//getDateTimeStamp();
 	//makePresenceRow(me, false);
 	//launchRFU(me);
 	

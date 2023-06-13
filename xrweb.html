@@ -23,8 +23,8 @@
 <!-- start fixed header -->
 <div id="topheader" class="w3-bar w3-teal">
   <button class="w3-bar-item w3-large" id="sidebar" onclick="openNav();">&#9776</button>
-  <button class="w3-bar-item w3-large" id="maintab" onclick="openTab('main');">Main</button>
-  <button class="w3-bar-item w3-large" id="chattab" onclick="openTab('chat');">Chat Page</button>
+  <button class="w3-bar-item w3-large tabbutton" id="maintab" onclick="openTab(event, 'main');">Main</button>
+  <button class="w3-bar-item w3-large tabbutton" id="chattab" onclick="openTab(event, 'chat');">Chat Page</button>
   <!--<button class="w3-bar-item w3-red" id="onlineInd" onclick="ctrlR();">MQTT</button>-->
 </div> <!-- end topheader -->
 
