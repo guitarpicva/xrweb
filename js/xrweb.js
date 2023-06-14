@@ -143,6 +143,9 @@ function onMessageArrived(message) {
 				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " Chat " + type + " " + jason.user + " to channel " + jason.channel + " as: " + jason.name + "<br>" + currtext;
 			else if(type === "msg")
 				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text + "<br>" + currtext;
+			else if(type === "leave") {
+				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has left the channel<br>" + currtext;
+			}
 		}
 		else {
 			var currtext = document.getElementById("trace").innerHTML;
