@@ -61,13 +61,13 @@
 <!-- chat pane -->
 <div id="chat" class="w3-container w3-responsive w3-mobile tabswitch">
   <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="overflow-y: scroll;"></div>  
-  <div class="w3-row w3-teal w3-bottom w3-teal">
+  <div class="w3-row-padding w3-teal w3-bottom w3-teal">
      <div class="w3-quarter w3-container">
-       <span class="">Room&nbsp;</span>
+       <span>Room&nbsp;</span>
        <input type="text" id="dest" style="width:85%;">
      </div>
      <div class="w3-threequarter w3-container">
-      <span class="">Text&nbsp;</span><br>
+      <span>Text&nbsp;</span><br>
       <textarea class="w3-half" id="tosend" type="text" style="min-height:85px;width:80%;"></textarea>
       <button class="w3-button w3-border w3-blue w3-monospace" id="chatsend" onclick="sendChat(document.getElementById('dest').value, document.getElementById('tosend').value);">&nbsp;SEND</button>
       <button class="w3-button w3-border w3-blue w3-monospace" onclick="document.getElementById('chattrace').innerHTML = '';">CLEAR</button>
