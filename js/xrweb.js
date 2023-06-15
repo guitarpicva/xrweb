@@ -55,8 +55,9 @@ function onConnect() {
 	tmp = "Connected to " + ipaddress;
 	// subscribe to all xrouter topics for testing
 	client.subscribe("xrouter/#");
-	document.getElementById("sidebar").className.replace(" w3-red", "");
-	document.getElementById("sidebar").className += " w3-teal";
+	document.getElementById("sidebar").className = document.getElementById("sidebar").className.replace(" w3-red", "");
+	if(!document.getElementById("sidebar").className.includes(" w3-teal"))
+		document.getElementById("sidebar").className += " w3-teal";
 }
 
 // called when the client loses its connection
@@ -69,8 +70,11 @@ function onConnectionLost(responseObject) {
 		printTrace("Connection to Server : " + client.host + " Lost - " + responseObject.errorMessage);
 	}
 	//document.getElementById("onlineInd").innerHTML = "OFFLINE";
-	document.getElementById("sidebar").className.replace(" w3-teal", "");
-	document.getElementById("sidebar").className += " w3-red";
+	document.getElementById("sidebar").className = document.getElementById("sidebar").className.replace(" w3-teal", "");	
+	//console.log("after replace: " + document.getElementById("sidebar").className);
+	if(!document.getElementById("sidebar").className.includes(" w3-red"))
+		document.getElementById("sidebar").className += " w3-red";
+	//console.log("after add w3-red: " + document.getElementById("sidebar").className);
 	intervalID = setInterval(checkConnection, 5000);
 }
 
@@ -140,7 +144,7 @@ function onMessageArrived(message) {
 			var jason = JSON.parse(res);
 			var currtext = document.getElementById("chattrace").innerHTML;
 			if(type === "join")
-				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " Chat " + type + " " + jason.user + " to channel " + jason.channel + " as: " + jason.name + "<br>" + currtext;
+			document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has joined the channel<br>" + currtext;
 			else if(type === "msg")
 				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text + "<br>" + currtext;
 			else if(type === "leave") {
@@ -198,8 +202,6 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " w3-red";
 }
 
-
-
 function printTrace(toPrint) {
 	console.log("Print trace:" + toPrint);
 }
@@ -242,8 +244,9 @@ function getDateTimeStamp() {
 }
 
 function sendChat(other, chatText) {
-	console.log("chat/send/" + me + "/" + other + " : " + chatText);
-	client.send("chat/send/" + me + "/" + other, chatText, 2, false);
+	console.log("xrouter/send/" + me + "/chat/" + other + " : " + chatText);
+	client.send("xrouter/send/" + me + "/chat/" + other, chatText, 2, false);
+	document.getElementById("tosend").value = '';
 }
 
 function loadSettings() {
@@ -315,39 +318,39 @@ function launchRFU(rfuname) {
 }
 
 function makePresenceRow(rfuname, online) {
-	var table = document.getElementById("presence");
-    var row = 0;
-    console.log("rowcount:" + table.rows.length);
-    var rowcount = table.rows.length;
-    var useRow = 0;
-    var colCount = 0;
-    if(rowcount == 0) {
-	    row = table.insertRow(0);
-    }
-    else if(rowcount == 1) {
-        //console.log("col count 1:" + table.rows[0].cells.length);
-        //colCount = table.rows[0].cells.length;
-        useRow = 0;
-        if(colCount == 7) {
-            row = table.insertRow(1);
-            colCount = 0;
-            useRow = 1;
-        }
+	// var table = document.getElementById("presence");
+    // var row = 0;
+    // console.log("rowcount:" + table.rows.length);
+    // var rowcount = table.rows.length;
+    // var useRow = 0;
+    // var colCount = 0;
+    // if(rowcount == 0) {
+	//     row = table.insertRow(0);
+    // }
+    // else if(rowcount == 1) {
+    //     //console.log("col count 1:" + table.rows[0].cells.length);
+    //     //colCount = table.rows[0].cells.length;
+    //     useRow = 0;
+    //     if(colCount == 7) {
+    //         row = table.insertRow(1);
+    //         colCount = 0;
+    //         useRow = 1;
+    //     }
         
-    }
-    else if(rowcount == 2) {
-        //console.log("col count 2:" + table.rows[1].cells.length);
-        colCount = table.rows[0].cells.length;
-        useRow = 1;
-        if(colCount == 7) {
-            row = table.insertRow(2);
-            colCount = 0;
-            useRow = 2;
-        }
-    }
-    //console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
-    row = table.rows[useRow]; // the row to append the new cell to
-    var onlinecell = row.insertCell(-1); // on the end
+    // }
+    // else if(rowcount == 2) {
+    //     //console.log("col count 2:" + table.rows[1].cells.length);
+    //     colCount = table.rows[0].cells.length;
+    //     useRow = 1;
+    //     if(colCount == 7) {
+    //         row = table.insertRow(2);
+    //         colCount = 0;
+    //         useRow = 2;
+    //     }
+    // }
+    // //console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
+    // row = table.rows[useRow]; // the row to append the new cell to
+    // var onlinecell = row.insertCell(-1); // on the end
 	//onlinecell.className = "prescell button";
 	var onlinebutton = document.createElement('button');
 	onlinebutton.id = rfuname + "Online";
@@ -361,8 +364,11 @@ function makePresenceRow(rfuname, online) {
 	onlinebutton.onclick = function(){refreshRFU(rfuname);};
 	//onlinebutton.ondblclick = function(){launchRFU(rfuname);};
 	//console.log("new presence: " + onlinebutton.id);
-	onlinecell.appendChild(onlinebutton);
-	if(rowcount == 0 && colCount == 0) {
+	//onlinecell.appendChild(onlinebutton);
+	var bar = document.getElementById("presence");
+	bar.appendChild(onlinebutton);
+	//if(rowcount == 0 && colCount == 0) {
+	if(bar.getElementsByTagName('BUTTON').length == 1) {
 		// display the first station in the table
 		refreshRFU(rfuname);
 	}

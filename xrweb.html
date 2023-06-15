@@ -4,13 +4,12 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/w3.css" type="text/css">
-<link rel="stylesheet" href="css/sidenav.css" type="text/css">
-
+<link rel="stylesheet" href="css/w3-theme-dark-grey.css" type="text/css">
 
 <script src="js/paho-mqtt-min.js" type="text/javascript"></script>
 <script src="js/xrweb.js" type="text/javascript"></script>
 
-<title>HFA Web</title>
+<title>XRouterWeb</title>
 </head>
 <body onload="loadSettings();">
   <!-- Sidebar -->
@@ -27,12 +26,8 @@
   <button class="w3-bar-item w3-large w3-mobile tabbutton" id="chattab" onclick="openTab(event, 'chat');">Chat Page</button>
   <!--<button class="w3-bar-item w3-red" id="onlineInd" onclick="ctrlR();">MQTT</button>-->
 </div> <!-- end topheader -->
-
-<div class="pres">
-  <table id="presence" style="border:none;">
-    <!-- station buttons are created and inserted here across the top of the document -->    
-  </table>
-</div>  
+<!-- this div holds the presence buttons, which are responsive and pile up as needed -->
+<div class="w3-bar w3-padding-small w3-responsive w3-mobile" id="presence"></div>  
 
 <!-- main pane -->
 <div class="w3-panel w3-responsive tabswitch" id="main">
@@ -54,18 +49,31 @@
       <!-- add the station's list of port definitions here -->
     </table>
   </div>
-</div>
-<!-- end main pane -->
+  <!-- hide/show trace pane -->
+  <button onclick="hideShowTrace('tracediv');" class="w3-button w3-block w3-grey w3-left-align">
+    Hide/Show Trace</button>
+  <div id="tracediv" class="w3-panel w3-dark-grey w3-border w3-responsive w3-hide w3-mobile;" style="resize:vertical;">
+    <p id="trace" class="w3-container w3-monospace w3-small" style="height:100%;min-height:100px;"></p>
+  </div> <!-- end trace pane-->
+</div> <!-- end main pane -->
+
 <!-- chat pane -->
-<div id="chat" class="w3-container w3-dark-grey tabswitch" style="display:none">
-  <p id="chattrace" class="w3-container w3-monospace w3-small"></p>
-</div>
+<div id="chat" class="w3-container w3-responsive w3-mobile tabswitch">
+  <p id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small"></p>  
+  <div class="w3-row w3-teal w3-bottom">
+     <div class="w3-quarter w3-container">
+       <span class="">Room</span><input type="text" id="dest" style="display:inline-block;">
+     </div>
+     <div class="w3-half w3-container">
+      <span class="">Text</span><input class="w3-half" id="tosend" type="text" style="width:100%;">
+     </div>
+     <div class="w3-quarter w3-container">
+      <br/><button class="w3-button w3-border w3-pale-blue" id="chatsend" onclick="sendChat('1234', document.getElementById('tosend').value);">SEND</button>
+    </div>
+    <div class="w3panel w3-padding-small">&nbsp;</div>
+   </div>
+  </div>
 <!-- end chat pane -->
 
-<button onclick="hideShowTrace('tracediv');" class="w3-button w3-block w3-grey w3-left-align">
-  Hide/Show Trace</button>
-<div id="tracediv" class="w3-panel w3-border w3-responsive w3-hide">
-  <p id="trace" class="w3-container w3-dark-grey w3-monospace w3-small"></p>
-</div
 </body>
 </html>
