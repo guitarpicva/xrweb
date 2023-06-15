@@ -173,7 +173,7 @@ function onMessageArrived(message) {
 }
 
 function openNav() {
-	// document.getElementById("mySidenav").style.display = "block";
+	document.getElementById("mycall").value = localStorage.getItem("myCallSign");
 	// document.getElementById("passphr").value = localStorage.getItem("passphrase");
 	document.getElementById("mySidebar").style.display = "block";
 }
