@@ -136,21 +136,24 @@ function onMessageArrived(message) {
 			if(document.getElementById(parts[2] + "Online") == null)
 				makePresenceRow(parts[2], stat);
 			var currtext = document.getElementById("trace").innerHTML;
-			document.getElementById("trace").innerHTML = getDateTimeStamp() + " - " + topic + " : " + res + "<BR>" + currtext;
+			var doc = document.getElementById("trace");
+			doc.innerHTML = getDateTimeStamp() + " - " + topic + " : " + res + "<BR>" + currtext;
+			doc.scrollTop = doc.scrollHeight - doc.clientHeight;
 		}
 		else if(topic.includes("/chat/")) {
 			// chat events need to hit the chattrace element
 			var parts = topic.split("/");
 			var type = parts[4] + '';
 			var jason = JSON.parse(res);
-			//var currtext = document.getElementById("chattrace").innerHTML;
+			var doc = document.getElementById('chattrace');
 			if(type === "join")
-			document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has joined the channel";
+			doc.innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has joined the channel";
 			else if(type === "msg")
-				document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text;
+				doc.innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text;
 			else if(type === "leave") {
-				document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has left the channel";
+				doc.innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has left the channel";
 			}
+			doc.scrollTop = doc.scrollHeight - doc.clientHeight;
 		}
 		else {
 			var currtext = document.getElementById("trace").innerHTML;
@@ -421,10 +424,13 @@ function makePortsRows(jason) {
 }
 
 function displayRoutes() {
-	if(document.getElementById("tracediv").className.includes("w3-hide"))
+	if(!document.getElementById("tracediv").className.includes("w3-show"))
 		document.getElementById("toggletrace").click();
-	console.log("display routes!");
+	var doc = document.getElementById("tracediv");
+	doc.scrollTop = doc.scrollHeight - doc.clientHeight;
+	//console.log("display routes!");
 	client.send("xrouter/get/" + me + "/routes", '', 2, false);
+
 }
 
 function makeMainRow(jason) {
