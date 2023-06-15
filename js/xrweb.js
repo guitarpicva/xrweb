@@ -101,7 +101,7 @@ function onMessageArrived(message) {
 			max = table.rows.length; // before removing any rows!
 			console.log("max rows: " + max);
 			for(i=1;i < max; i++) {
-				console.log("remove row..." + i);
+				//console.log("remove row..." + i);
 				table.rows[1].remove();
 			}			
 			makePortsRows(jason);			
@@ -283,7 +283,8 @@ function ctrlR() {
 
 
 function refreshRFU(rfuname) {
-	//console.log("Refresh RFU: " + rfuname);
+	console.log("Refresh RFU: " + rfuname);
+	
 	// this should return multiple topics with all of the data necessary
 	// to update the various sections of the page for this station
 	client.send("xrouter/get/" + rfuname + "/config", '', 2, false);
@@ -370,6 +371,7 @@ function makePresenceRow(rfuname, online) {
 	//if(rowcount == 0 && colCount == 0) {
 	if(bar.getElementsByTagName('BUTTON').length == 1) {
 		// display the first station in the table
+		console.log("refresh only node: " + rfuname);
 		refreshRFU(rfuname);
 	}
 }
