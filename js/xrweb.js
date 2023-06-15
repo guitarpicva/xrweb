@@ -35,8 +35,9 @@ function checkConnection() {
 	client.connect({useSSL:true, onSuccess: onConnect});
 }
 
-var clientid = getTimeStamp().replace(" ", "_");
-//console.log("clientid:" + clientid);
+var clientid = getDateTimeStamp().replace(/ /g, "_");
+clientid = clientid.replace(/:/g, "_");
+console.log("clientid:" + clientid);
 //client = new Paho.MQTT.Client(ipaddress, Number(9001), "/mqtt", clientid);
 client = new Paho.MQTT.Client(ipaddress, Number(8081), "/mqtt", clientid);
 
