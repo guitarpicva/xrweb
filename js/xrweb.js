@@ -247,9 +247,10 @@ function getDateTimeStamp() {
 	return out;
 }
 
-function sendChat(other, chatText) {
-	console.log("xrouter/send/" + me + "/chat/" + other + " : " + chatText);
-	client.send("xrouter/send/" + me + "/chat/" + other, chatText, 2, false);
+function sendChat(channel, chatText) {
+	var jason = '{"sender":"' + myCallSign + '","channel":' + channel + ',"text":"' + chatText + '"}';		
+	console.log("send chat text: " + jason);
+	client.send("xrouter/put/" + me + "/chat/msg", jason, 2, false);
 	document.getElementById("tosend").value = '';
 }
 

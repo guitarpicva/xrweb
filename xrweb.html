@@ -60,7 +60,7 @@
 
 <!-- chat pane -->
 <div id="chat" class="w3-container w3-responsive w3-mobile tabswitch">
-  <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="min-height:450px;overflow-y: scroll;">hello world</div>  
+  <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="overflow-y: scroll;">hello world</div>  
   <div class="w3-row w3-teal w3-bottom w3-teal">
      <div class="w3-quarter w3-container">
        <span class="">Room&nbsp;</span>
@@ -71,9 +71,8 @@
       <textarea class="w3-half" id="tosend" type="text" style="min-height:85px;width:80%;"></textarea>
       <button class="w3-button w3-border w3-blue" id="chatsend" onclick="sendChat('1234', document.getElementById('tosend').value);">SEND</button>
      </div>      
-     <div class="w3-container w3-padding w3-row">&nbsp;</div>  
-   </div>   
-   
+     <div class="w3-container w3-rest w3-padding">&nbsp;</div>  
+   </div>      
 </div>
 <!-- end chat pane -->
 </body>
