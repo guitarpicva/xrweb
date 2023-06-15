@@ -284,7 +284,7 @@ function ctrlR() {
 
 function refreshRFU(rfuname) {
 	console.log("Refresh RFU: " + rfuname);
-	
+	localStorage.setItem("uniquename", rfuname);
 	// this should return multiple topics with all of the data necessary
 	// to update the various sections of the page for this station
 	client.send("xrouter/get/" + rfuname + "/config", '', 2, false);
