@@ -421,6 +421,8 @@ function makePortsRows(jason) {
 }
 
 function displayRoutes() {
+	if(document.getElementById("tracediv").className.includes("w3-hide"))
+		document.getElementById("toggletrace").click();
 	console.log("display routes!");
 	client.send("xrouter/get/" + me + "/routes", '', 2, false);
 }
