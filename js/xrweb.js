@@ -12,9 +12,10 @@ class Address {
 var calltype = 0;
 var addressBook = []; // this will be an array of "Address" objects filled by a topic from the controller on start
 var me = localStorage.getItem("uniquename"); // my unique ID, same as controller
+var myCallSign = localStorage.getItem('myCallSign');
 var myPosition = localStorage.getItem("position");
 var passphrase = localStorage.getItem("passphrase");
-if(passphrase === "") {
+if(passphrase === "" || myCallSign === "") {
 	openNav();
 }
 //var ipaddress = "radio.radcommsoft.net";
@@ -183,6 +184,9 @@ function closeNav() {
 	// save settings values to localStorage object
 	tmp = document.getElementById("passphr").value;
 	passphrase = tmp + '';
+	tmp = document.getElementById("mycall").value;
+	myCallSign = tmp;
+	localStorage.setItem('myCallSign', myCallSign);
 	// tmp = document.getElementById("callsign").value;
 	// localStorage.setItem("uniquename", tmp);	
 	// me = tmp; // my unique ID, the viewed station
