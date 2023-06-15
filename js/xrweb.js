@@ -243,7 +243,9 @@ function getDateTimeStamp() {
 	const utc = new Date();	
 	var out = '';
 	out += utc.getUTCDate() + '-' + utc.getUTCHours() + ':' + utc.getUTCMinutes() + ':' + utc.getUTCSeconds() + '.' + utc.getUTCMilliseconds();
-	//console.log("out: " + out);
+	out = out.padEnd(15, " ");
+console.log("out: " + out + ":");
+	
 	return out;
 }
 
@@ -252,6 +254,8 @@ function sendChat(channel, chatText) {
 	console.log("send chat text: " + jason);
 	client.send("xrouter/put/" + me + "/chat/msg", jason, 2, false);
 	document.getElementById("tosend").value = '';
+	document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + "&nbsp;{" + channel + "} [" + myCallSign + "] : " + chatText;
+	
 }
 
 function loadSettings() {
