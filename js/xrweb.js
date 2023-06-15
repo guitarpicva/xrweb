@@ -21,7 +21,7 @@ if(passphrase === "" || myCallSign === "") {
 //var ipaddress = "radio.radcommsoft.net";
 var ipaddress = "test.mosquitto.org";
 //var ipaddress = "ec2-54-203-203-171.us-west-2.compute.amazonaws.com";
-console.log("ipaddress:" + ipaddress + " passphrase:" + passphrase);
+//console.log("ipaddress:" + ipaddress + " passphrase:" + passphrase);
 //var selFolder = "InBox"; // on open use the InBox folder as the default filter
 //var selectedRow = 0;
 //var selectedMsgId = 0;
@@ -36,9 +36,8 @@ function checkConnection() {
 	client.connect({useSSL:true, onSuccess: onConnect});
 }
 
-var clientid = getDateTimeStamp().replace(/ /g, "_");
-clientid = clientid.replace(/:/g, "_");
-console.log("clientid:" + clientid);
+var clientid = getDateTimeStamp().replace(/ /g, "_").replace(/:/g, "_");
+//console.log("clientid:" + clientid);
 //client = new Paho.MQTT.Client(ipaddress, Number(9001), "/mqtt", clientid);
 client = new Paho.MQTT.Client(ipaddress, Number(8081), "/mqtt", clientid);
 
@@ -51,7 +50,7 @@ client.connect({useSSL:true, onSuccess: onConnect});
 // called when the client connects
 function onConnect() {
 	clearInterval(intervalID);
-	console.log("onConnect..." + document.getElementById("sidebar").className);
+	//console.log("onConnect..." + document.getElementById("sidebar").className);
 	// Once a connection has been made, make subscriptions
 	me = localStorage.getItem("uniquename");
 	tmp = "Connected to " + ipaddress;
@@ -64,7 +63,7 @@ function onConnect() {
 
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
-	console.log("onConnectionLost..." + document.getElementById("sidebar").className);
+	//console.log("onConnectionLost..." + document.getElementById("sidebar").className);
 	if (responseObject.errorCode !== 0) {
 		console.log("MQTT Connection Lost" + responseObject.errorMessage);
 		var currtext = document.getElementById("trace").innerHTML;
@@ -82,7 +81,7 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
-	console.log(message.destinationName + ":\n" + message.payloadString);
+	//console.log(message.destinationName + ":\n" + message.payloadString);
 	//me = document.getElementById("uniquename").value;
 	//console.log("onMessageArrived:" + me); // + document.baseURI);
 	var res = message.payloadString;
@@ -101,7 +100,7 @@ function onMessageArrived(message) {
 		// clear all rows in the table
 		if(topic.includes("/ports")) {
 			max = table.rows.length; // before removing any rows!
-			console.log("max rows: " + max);
+			//console.log("max rows: " + max);
 			for(i=1;i < max; i++) {
 				//console.log("remove row..." + i);
 				table.rows[1].remove();
@@ -144,13 +143,13 @@ function onMessageArrived(message) {
 			var parts = topic.split("/");
 			var type = parts[4] + '';
 			var jason = JSON.parse(res);
-			var currtext = document.getElementById("chattrace").innerHTML;
+			//var currtext = document.getElementById("chattrace").innerHTML;
 			if(type === "join")
-			document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has joined the channel<br>" + currtext;
+			document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has joined the channel";
 			else if(type === "msg")
-				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text + "<br>" + currtext;
+				document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text;
 			else if(type === "leave") {
-				document.getElementById("chattrace").innerHTML = getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has left the channel<br>" + currtext;
+				document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has left the channel";
 			}
 		}
 		else {
@@ -195,7 +194,7 @@ function closeNav() {
 function openTab(evt, tabName) {
 	var i, x, tablinks;
   x = document.getElementsByClassName("tabswitch");
-  console.log("tabswitch: " + x);
+  //console.log("tabswitch: " + x);
   for (i = 0; i < x.length; i++) {
     x[i].style.display = "none";
   }
@@ -288,7 +287,7 @@ function ctrlR() {
 
 
 function refreshRFU(rfuname) {
-	console.log("Refresh RFU: " + rfuname);
+	//console.log("Refresh RFU: " + rfuname);
 	localStorage.setItem("uniquename", rfuname);
 	// this should return multiple topics with all of the data necessary
 	// to update the various sections of the page for this station
@@ -376,7 +375,7 @@ function makePresenceRow(rfuname, online) {
 	//if(rowcount == 0 && colCount == 0) {
 	if(bar.getElementsByTagName('BUTTON').length == 1) {
 		// display the first station in the table
-		console.log("refresh only node: " + rfuname);
+		//console.log("refresh only node: " + rfuname);
 		refreshRFU(rfuname);
 	}
 }

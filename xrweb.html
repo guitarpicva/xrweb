@@ -60,21 +60,20 @@
 
 <!-- chat pane -->
 <div id="chat" class="w3-container w3-responsive w3-mobile tabswitch">
-  <p id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small"></p>  
+  <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="min-height:300px;">hello world</div>  
   <div class="w3-row w3-teal w3-bottom">
-     <div class="w3-quarter w3-container">
-       <span class="">Room</span><input type="text" id="dest" style="display:inline-block;">
+     <div class="w3-quarter w3-container w3-teal">
+       <span class="">Room&nbsp;</span>
+       <input type="text" id="dest" style="width:75%;">
      </div>
-     <div class="w3-half w3-container">
-      <span class="">Text</span><input class="w3-half" id="tosend" type="text" style="width:100%;">
-     </div>
-     <div class="w3-quarter w3-container">
-      <br/><button class="w3-button w3-border w3-pale-blue" id="chatsend" onclick="sendChat('1234', document.getElementById('tosend').value);">SEND</button>
-    </div>
-    <div class="w3panel w3-padding-small">&nbsp;</div>
-   </div>
+     <div class="w3-threequarter w3-teal w3-container">
+      <span class="">Text&nbsp;</span><br>
+      <textarea class="w3-half" id="tosend" type="text" style="width:80%;"></textarea>
+      <button class="w3-button w3-border w3-blue" id="chatsend" onclick="sendChat('1234', document.getElementById('tosend').value);">SEND</button>
+     </div>      
+     <div class="w3-panel w3-padding-small w3-dark-grey">&nbsp;</div>
+   </div>   
   </div>
 <!-- end chat pane -->
-
 </body>
 </html>
