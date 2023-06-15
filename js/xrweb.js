@@ -251,7 +251,7 @@ console.log("out: " + out + ":");
 
 function sendChat(channel, chatText) {
 	var jason = '{"sender":"' + myCallSign + '","channel":' + channel + ',"text":"' + chatText + '"}';		
-	console.log("send chat text: " + jason);
+	//console.log("send chat text: " + jason);
 	client.send("xrouter/put/" + me + "/chat/msg", jason, 2, false);
 	document.getElementById("tosend").value = '';
 	//document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + "&nbsp;{" + channel + "} [" + myCallSign + "] : " + chatText;
