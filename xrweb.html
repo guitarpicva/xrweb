@@ -54,18 +54,21 @@
   <!-- hide/show trace pane -->
   <button id="toggletrace" onclick="hideShowTrace('tracediv');" class="w3-button w3-block w3-grey w3-left-align">
     Hide/Show Trace</button>
-  <div id="tracediv" class="w3-panel w3-dark-grey w3-border w3-responsive w3-hide w3-mobile;" style="resize:vertical;">
+  <div id="tracediv" class="w3-panel w3-dark-grey w3-border w3-responsive w3-hide w3-mobile" style="resize:vertical;">
     <p id="trace" class="w3-container w3-monospace w3-small" style="height:100%;min-height:100px;"></p>
   </div> <!-- end trace pane-->
 </div> <!-- end main pane -->
 
 <!-- chat pane -->
 <div id="chat" class="w3-container w3-responsive w3-mobile tabswitch">
-  <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="height:400px;overflow: auto;resize: vertical;"></div>  
-   <div class="w3-container w3-teal w3-bottom">
+  <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="height:400px;overflow: auto;resize: vertical;line-height:1;"></div>  
+
+  <div class="w3-container w3-teal w3-bottom">
+
     <div class="w3-container w3-padding-small w3-teal w3-cell w3-cell-bottom w3-responsive w3-mobile">
       <button class="w3-btn w3-purple" onclick="document.getElementById('chattrace').innerHTML = '';">Clear</button>
     </div>
+
     <div class="w3-container w3-teal w3-cell w3-responsive w3-mobile w3-padding-small">
       <label>Channel</label><br>
       <input id="dest" type="text" style="width:4em;">
@@ -75,6 +78,7 @@
       <label>Chat Text</label>
       <input id="tosend" type="text" style="min-width:23em;max-width:40em;">
     </div>
+
     <div class="w3-container w3-cell w3-padding-small w3-teal w3-cell-bottom w3-responsive w3-mobile">
       <button class="w3-btn w3-purple" 
       onclick="var dest = document.getElementById('dest').value + '';
@@ -85,7 +89,8 @@
       Send
       </button>
     </div>
-</div>
+
+  </div>
 
 <!-- end chat pane -->
 </body>

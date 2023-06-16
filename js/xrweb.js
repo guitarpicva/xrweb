@@ -1,17 +1,4 @@
-var messageList = "{\"queue\":[]}";
-var routeList = "{\"routes\":[]}";
-var myRecordArray=[];
-var myRouteArray=[];
-
-class Address {
-	constructor(addrstr, friendly_name){
-		this.address = addrstr + ''; // ensure it's a string
-		this.frname = friendly_name + ''; // ensure it's a string
-	}
-}
-// var calltype = 0;
-// var addressBook = []; // this will be an array of "Address" objects filled by a topic from the controller on start
-console.log('set base values from localStorage');
+//console.log('set base values from localStorage');
 var me = localStorage.getItem("uniquename"); // the node's name
 var myCallSign = localStorage.getItem('myCallSign') + '';
 var myChatName = localStorage.getItem('myChatName') + '';
@@ -27,9 +14,7 @@ if(passphrase === "" || myCallSign === "" || myChatName === "") {
 var ipaddress = "test.mosquitto.org";
 //var ipaddress = "ec2-54-203-203-171.us-west-2.compute.amazonaws.com";
 //console.log("ipaddress:" + ipaddress + " passphrase:" + passphrase);
-//var selFolder = "InBox"; // on open use the InBox folder as the default filter
-//var selectedRow = 0;
-//var selectedMsgId = 0;
+
 // periodic check of connection status triggered
 // by onConnectionLost (start) and onConnect (stop)
 var intervalID;
@@ -258,23 +243,33 @@ function hideShowTrace(id) {
     }
   }
 
-function showtracechanged() {
-	// Toggle the trace div
-	ishidden = document.getElementById("trace").hidden;
-	//console.log("show trace? " + ishidden);
+// function showtracechanged() {
+// 	// Toggle the trace div
+// 	ishidden = document.getElementById("trace").hidden;
+// 	//console.log("show trace? " + ishidden);
 	
-	document.getElementById("trace").hidden = !ishidden;
-	//document.getElementById("buttondiv").hidden = !ishidden;
-}
+// 	document.getElementById("trace").hidden = !ishidden;
+// 	//document.getElementById("buttondiv").hidden = !ishidden;
+// }
 
 function getDateTimeStamp() {
 	// update the ui
 	//Date: Sat, 26 Dec 2020 14:52:40 -0500 is the RFC-822 header format
 	const utc = new Date();	
 	var out = '';
-	out += utc.getUTCDate() + '-' + utc.getUTCHours() + ':' + utc.getUTCMinutes() + ':' + utc.getUTCSeconds() + '.' + utc.getUTCMilliseconds();
-	out = out.padEnd(15, " ");
-//console.log("out: " + out + ":");
+	var day = utc.getUTCDate() + ''; // always 4 chars
+	var hr = utc.getUTCHours() + ''; // might be one char so adjust
+	if(hr.length < 2) hr = '0' + hr;
+	var min = utc.getUTCMinutes() + '';
+	if(min.length < 2) min = '0' + min;
+	var sec = utc.getUTCSeconds() + '';
+	if(sec.length < 2) sec = '0' + sec;
+	var ms = utc.getUTCMilliseconds() + '';
+	for(i = 0; i < 3- ms.length; i++) 
+		ms = '0' + ms;
+	out += day + '-' + hr + ':' + min + ':' + sec + '.' + ms;
+	
+console.log("out: " + out + ":");
 	
 	return out;
 }
@@ -283,7 +278,7 @@ function sendChat(channel, chatText) {
 	localStorage.setItem('currentChatChannel', channel);
 	myChatChannel = channel;
 	var jason = '{"sender":"' + myCallSign + '","name":"' + myChatName + '","channel":' + channel + ',"text":"' + chatText + '"}';		
-	console.log("send chat text: " + jason);
+	//console.log("send chat text: " + jason);
 	client.send("xrouter/put/" + me + "/chat/msg", jason, 2, false);
 	document.getElementById("tosend").value = ''; // clear the text  box
 	//document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + "&nbsp;{" + channel + "} [" + myCallSign + "] : " + chatText;
@@ -292,7 +287,7 @@ function sendChat(channel, chatText) {
 }
 
 function loadSettings() {
-	console.log('loadSettings()');
+	//console.log('loadSettings()');
 	me = localStorage.getItem("uniquename") + '';
 	var dest = document.getElementById('dest').value;
 	dest = localStorage.getItem('currentChatChannel') + '';
