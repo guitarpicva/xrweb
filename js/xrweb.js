@@ -134,9 +134,21 @@ function onMessageArrived(message) {
 		//console.log("event: " + topic + " : " + res);
 		if(topic.includes("/status")) {
 			var parts = topic.split("/");
-			var stat = res == "online";
+			var stat = res;
 			if(document.getElementById(parts[2] + "Online") == null)
 				makePresenceRow(parts[2], stat);
+			else {
+				// this node is already here so set the color
+				if(stat === "true") {
+					var doc = document.getElementById(parts[2] + "Online");
+					if(doc.className.includes("w3-red")) {
+						// remove w3-red and add w3-teal
+					}
+				}
+				else {
+
+				}
+			}
 			var currtext = document.getElementById("trace").innerHTML;
 			var doc = document.getElementById("trace");
 			doc.innerHTML = getDateTimeStamp() + " - " + topic + " : " + res + "<BR>" + currtext;
@@ -261,7 +273,7 @@ function sendChat(channel, chatText) {
 	localStorage.setItem('currentChatChannel', channel);
 	myChatChannel = channel;
 	var jason = '{"sender":"' + myCallSign + '","name":"' + myChatName + '","channel":' + channel + ',"text":"' + chatText + '"}';		
-	//console.log("send chat text: " + jason);
+	console.log("send chat text: " + jason);
 	client.send("xrouter/put/" + me + "/chat/msg", jason, 2, false);
 	document.getElementById("tosend").value = ''; // clear the text  box
 	//document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + "&nbsp;{" + channel + "} [" + myCallSign + "] : " + chatText;
