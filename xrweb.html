@@ -63,7 +63,7 @@
 <div id="chat" class="w3-container w3-responsive w3-mobile tabswitch">
   <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="height:400px;overflow: auto;resize: vertical;"></div>  
   <div class="w3-row-padding w3-teal w3-bottom w3-teal">
-     <div class="w3-quarter w3-container">
+     <!-- <div class="w3-quarter w3-container">
        <span>Room&nbsp;</span>
        <input type="text" id="dest" style="width:85%;">
      </div>
@@ -82,8 +82,32 @@
         &nbsp;SEND</button>
       <button class="w3-button w3-border w3-blue w3-monospace" onclick="document.getElementById('chattrace').innerHTML = '';">CLEAR</button></div>
      
-   </div>      
+   </div>       -->
+   <div class="w3-container w3-teal w3-bottom">
+    <div class="w3-container w3-padding-small w3-teal w3-cell w3-responsive w3-mobile">
+      <button class="w3-btn w3-purple" onclick="document.getElementById('chattrace').innerHTML = '';">Clear</button>
+    </div>
+    <div class="w3-container w3-teal w3-cell w3-responsive w3-mobile w3-padding-small">
+    <label>Channel</label><br>
+      <input id="dest" type="text" style="width:4em;">
+    </div>
+    
+    <div class="w3-container w3-teal w3-cell w3-responsive w3-mobile w3-padding-small">
+      <label>Chat Text</label>
+      <input id="tosend" type="text"  style="min-width:25em;">
+    </div>
+    <div class="w3-container w3-padding-small w3-teal w3-cell w3-responsive w3-mobile">
+      <button class="w3-btn w3-purple" onclick="
+      var dest = document.getElementById('dest').value + '';
+      if(dest === '') {
+        dest = '1000';
+      }
+      sendChat(dest, document.getElementById('tosend').value);
+      ">Send</button>
+    </div>
+    </div>
 </div>
+
 <!-- end chat pane -->
 </body>
 </html>
