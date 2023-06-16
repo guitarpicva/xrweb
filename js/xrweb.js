@@ -14,7 +14,7 @@ var addressBook = []; // this will be an array of "Address" objects filled by a 
 var me = localStorage.getItem("uniquename"); // my unique ID, same as controller
 var myCallSign = localStorage.getItem('myCallSign') + '';
 var myChatName = localStorage.getItem('myChatName') + '';
-var myChatChannel = localStorage.getItem('myChatChannel') + '';
+var myChatChannel = localStorage.getItem('currentChatChannel') + '';
 var myPosition = localStorage.getItem("position") + '';
 var passphrase = localStorage.getItem("passphrase") + '';
 if(passphrase === "" || myCallSign === "") {
@@ -284,7 +284,8 @@ function sendChat(channel, chatText) {
 }
 
 function loadSettings() {
-	me = localStorage.getItem("uniquename");
+	me = localStorage.getItem("uniquename") + '';
+	document.getElementById('dest').value = localStorage.getItem('currentChatChannel') + '';
 	document.querySelector("title").innerHTML = 'XRouter Web - ' + me;
 	if(passphrase === '') {
 		openNav();

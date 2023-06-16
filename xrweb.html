@@ -13,7 +13,7 @@
 </head>
 <body onload="loadSettings();">
   <!-- Sidebar -->
-<div class="w3-sidebar w3-teal w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+<div class="w3-sidebar w3-teal w3-bar-block w3-border-right" style="height:75%;display:none" id="mySidebar">
   <button onclick="closeNav()" class="w3-bar-item w3-large">Close &times;</button>
   <div>My Call Sign:<br/><input type="text" id="mycall" placeholder="Enter Call Sign"></div>
   <div>My Chat Name:<br/><input type="text" id="myname" placeholder="Enter Chat Name"></div>
@@ -71,10 +71,17 @@
       <span>Text&nbsp;</span><br>
       <textarea class="w3-half" id="tosend" type="text" style="min-height:55px;width:100%;"></textarea>      
      </div>      
-     <div class="w3-quarter w3-container">
-      <button class="w3-button w3-border w3-blue w3-monospace" id="chatsend" onclick="sendChat(document.getElementById('dest').value, document.getElementById('tosend').value);">&nbsp;SEND</button>
+     <div class="w3-quarter w3-container w3-padding">
+      <button class="w3-button w3-border w3-blue w3-monospace" id="chatsend" onclick="
+        var dest = document.getElementById('dest').value + '';
+        if(dest === '') {
+          dest = '1000';
+        }
+        sendChat(dest, document.getElementById('tosend').value);
+        ">
+        &nbsp;SEND</button>
       <button class="w3-button w3-border w3-blue w3-monospace" onclick="document.getElementById('chattrace').innerHTML = '';">CLEAR</button></div>
-     <div class="w3-container w3-rest w3-padding">&nbsp;</div>  
+     
    </div>      
 </div>
 <!-- end chat pane -->
