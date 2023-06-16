@@ -62,28 +62,8 @@
 <!-- chat pane -->
 <div id="chat" class="w3-container w3-responsive w3-mobile tabswitch">
   <div id="chattrace" class="w3-container w3-dark-grey w3-monospace w3-small" style="height:400px;overflow: auto;resize: vertical;"></div>  
-     <!-- <div class="w3-quarter w3-container">
-       <span>Room&nbsp;</span>
-       <input type="text" id="dest" style="width:85%;">
-     </div>
-     <div class="w3-half w3-container">
-      <span>Text&nbsp;</span><br>
-      <textarea class="w3-half" id="tosend" type="text" style="min-height:55px;width:100%;"></textarea>      
-     </div>      
-     <div class="w3-quarter w3-container w3-padding">
-      <button class="w3-button w3-border w3-blue w3-monospace" id="chatsend" onclick="
-        var dest = document.getElementById('dest').value + '';
-        if(dest === '') {
-          dest = '1000';
-        }
-        sendChat(dest, document.getElementById('tosend').value);
-        ">
-        &nbsp;SEND</button>
-      <button class="w3-button w3-border w3-blue w3-monospace" onclick="document.getElementById('chattrace').innerHTML = '';">CLEAR</button></div>
-     
-   </div>       -->
    <div class="w3-container w3-teal w3-bottom">
-    <div class="w3-container w3-padding-small w3-teal w3-cell w3-responsive w3-mobile">
+    <div class="w3-container w3-padding-small w3-teal w3-cell w3-cell-bottom w3-responsive w3-mobile">
       <button class="w3-btn w3-purple" onclick="document.getElementById('chattrace').innerHTML = '';">Clear</button>
     </div>
     <div class="w3-container w3-teal w3-cell w3-responsive w3-mobile w3-padding-small">
@@ -95,14 +75,15 @@
       <label>Chat Text</label>
       <input id="tosend" type="text" style="min-width:23em;max-width:40em;">
     </div>
-    <div class="w3-container w3-padding-small w3-teal w3-cell w3-responsive w3-mobile">
-      <button class="w3-btn w3-purple" onclick="
-      var dest = document.getElementById('dest').value + '';
+    <div class="w3-container w3-cell w3-padding-small w3-teal w3-cell-bottom w3-responsive w3-mobile">
+      <button class="w3-btn w3-purple" 
+      onclick="var dest = document.getElementById('dest').value + '';
       if(dest === '') {
         dest = '1000';
       }
-      sendChat(dest, document.getElementById('tosend').value);
-      ">Send</button>
+      sendChat(dest, document.getElementById('tosend').value);">
+      Send
+      </button>
     </div>
 </div>
 
