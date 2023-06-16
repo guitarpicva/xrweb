@@ -243,15 +243,6 @@ function hideShowTrace(id) {
     }
   }
 
-// function showtracechanged() {
-// 	// Toggle the trace div
-// 	ishidden = document.getElementById("trace").hidden;
-// 	//console.log("show trace? " + ishidden);
-	
-// 	document.getElementById("trace").hidden = !ishidden;
-// 	//document.getElementById("buttondiv").hidden = !ishidden;
-// }
-
 function getDateTimeStamp() {
 	// update the ui
 	//Date: Sat, 26 Dec 2020 14:52:40 -0500 is the RFC-822 header format
@@ -267,10 +258,8 @@ function getDateTimeStamp() {
 	var ms = utc.getUTCMilliseconds() + '';
 	for(i = 0; i < 3- ms.length; i++) 
 		ms = '0' + ms;
-	out += day + '-' + hr + ':' + min + ':' + sec + '.' + ms;
-	
-console.log("out: " + out + ":");
-	
+	out += day + '-' + hr + ':' + min + ':' + sec + '.' + ms;	
+	//console.log("out: " + out + ":");	
 	return out;
 }
 
@@ -322,11 +311,6 @@ function updateOfflineStatus() {
 	document.getElementById("sidebar").className += " w3-red";
 }
 
-function ctrlR() {
-	location.reload();
-}
-
-
 function refreshRFU(rfuname) {
 	//console.log("Refresh RFU: " + rfuname);
 	localStorage.setItem("uniquename", rfuname);
@@ -349,18 +333,6 @@ function updatePresence(rfuname, online) {
 			document.getElementById(rfuname + "Online").innerHTML = rfuname + ":?";
 		}
 	}
-}
-
-function launchRFU(rfuname) {
-	//console.log("Launch RFU: " + rfuname);
-	localStorage.setItem("uniquename", rfuname);
-	me = rfuname;
-	var tmp = document.getElementById(rfuname + "Online");
-	var cn = tmp.className;
-	if(cn.includes("dark-red")) return;
-	client.send("xrouter/get/" + rfuname + "/config", '', 2, false);
-	// here is where we would gather all of the pertinent
-	// data to fill the screen or bank
 }
 
 function makePresenceRow(rfuname, online) {
