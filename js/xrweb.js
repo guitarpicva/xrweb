@@ -165,10 +165,15 @@ function onMessageArrived(message) {
 			var type = parts[4] + '';
 			var jason = JSON.parse(res);
 			var doc = document.getElementById('chattrace');
-			if(type === "join")
-			doc.innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has joined the channel";
-			else if(type === "msg")
-				doc.innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text;
+			if(type === "join") {
+			    doc.innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has joined the channel";
+			}
+			else if(type === "msg") {
+				var color = '';
+				if(jason.user == myCallSign)
+					color = "color:blue;"
+				doc.innerHTML += "<p style='" + color + "'>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " : " + jason.text + "</p>";
+			}
 			else if(type === "leave") {
 				doc.innerHTML += "<br>" + getDateTimeStamp() + " {" + jason.channel + "} [" + jason.user + "] " + jason.name + " has left the channel";
 			}
