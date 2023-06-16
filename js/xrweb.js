@@ -12,9 +12,11 @@ class Address {
 var calltype = 0;
 var addressBook = []; // this will be an array of "Address" objects filled by a topic from the controller on start
 var me = localStorage.getItem("uniquename"); // my unique ID, same as controller
-var myCallSign = localStorage.getItem('myCallSign');
-var myPosition = localStorage.getItem("position");
-var passphrase = localStorage.getItem("passphrase");
+var myCallSign = localStorage.getItem('myCallSign') + '';
+var myChatName = localStorage.getItem('myChatName') + '';
+var myChatChannel = localStorage.getItem('myChatChannel') + '';
+var myPosition = localStorage.getItem("position") + '';
+var passphrase = localStorage.getItem("passphrase") + '';
 if(passphrase === "" || myCallSign === "") {
 	openNav();
 }
@@ -189,6 +191,9 @@ function closeNav() {
 	tmp = document.getElementById("mycall").value;
 	myCallSign = tmp;
 	localStorage.setItem('myCallSign', myCallSign);
+	tmp = document.getElementById("myname").value;
+	myChatName = tmp;
+	localStorage.setItem('myChatName', myChatName);
 	// tmp = document.getElementById("callsign").value;
 	// localStorage.setItem("uniquename", tmp);	
 	// me = tmp; // my unique ID, the viewed station
@@ -247,18 +252,21 @@ function getDateTimeStamp() {
 	var out = '';
 	out += utc.getUTCDate() + '-' + utc.getUTCHours() + ':' + utc.getUTCMinutes() + ':' + utc.getUTCSeconds() + '.' + utc.getUTCMilliseconds();
 	out = out.padEnd(15, " ");
-console.log("out: " + out + ":");
+//console.log("out: " + out + ":");
 	
 	return out;
 }
 
 function sendChat(channel, chatText) {
-	var jason = '{"sender":"' + myCallSign + '","channel":' + channel + ',"text":"' + chatText + '"}';		
+	localStorage.setItem('currentChatChannel', channel);
+	myChatChannel = channel;
+	var jason = '{"sender":"' + myCallSign + '","name":"' + myChatName + '","channel":' + channel + ',"text":"' + chatText + '"}';		
 	//console.log("send chat text: " + jason);
 	client.send("xrouter/put/" + me + "/chat/msg", jason, 2, false);
-	document.getElementById("tosend").value = '';
+	document.getElementById("tosend").value = ''; // clear the text  box
 	//document.getElementById("chattrace").innerHTML += "<br>" + getDateTimeStamp() + "&nbsp;{" + channel + "} [" + myCallSign + "] : " + chatText;
-	
+//	xrouter/put/G8PZT-1/chat/msg:{"sender":"AB4MW","name":"Mitch","channel":1234,"text":"already done"}
+
 }
 
 function loadSettings() {
