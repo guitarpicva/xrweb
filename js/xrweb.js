@@ -317,6 +317,7 @@ function refreshRFU(rfuname) {
 	// this should return multiple topics with all of the data necessary
 	// to update the various sections of the page for this station
 	client.send("xrouter/get/" + rfuname + "/config", '', 2, false);
+	document.getElementById('chattextlabel').innerHTML = "Chat Text via " + rfuname;
 }
 
 function updatePresence(rfuname, online) {
@@ -336,40 +337,6 @@ function updatePresence(rfuname, online) {
 }
 
 function makePresenceRow(rfuname, online) {
-	// var table = document.getElementById("presence");
-    // var row = 0;
-    // console.log("rowcount:" + table.rows.length);
-    // var rowcount = table.rows.length;
-    // var useRow = 0;
-    // var colCount = 0;
-    // if(rowcount == 0) {
-	//     row = table.insertRow(0);
-    // }
-    // else if(rowcount == 1) {
-    //     //console.log("col count 1:" + table.rows[0].cells.length);
-    //     //colCount = table.rows[0].cells.length;
-    //     useRow = 0;
-    //     if(colCount == 7) {
-    //         row = table.insertRow(1);
-    //         colCount = 0;
-    //         useRow = 1;
-    //     }
-        
-    // }
-    // else if(rowcount == 2) {
-    //     //console.log("col count 2:" + table.rows[1].cells.length);
-    //     colCount = table.rows[0].cells.length;
-    //     useRow = 1;
-    //     if(colCount == 7) {
-    //         row = table.insertRow(2);
-    //         colCount = 0;
-    //         useRow = 2;
-    //     }
-    // }
-    // //console.log("rfuname:" + rfuname + " row:" + row + " useRow:" + useRow + " colCount:" + colCount);
-    // row = table.rows[useRow]; // the row to append the new cell to
-    // var onlinecell = row.insertCell(-1); // on the end
-	//onlinecell.className = "prescell button";
 	var onlinebutton = document.createElement('button');
 	onlinebutton.id = rfuname + "Online";
 	onlinebutton.innerHTML = (rfuname);
