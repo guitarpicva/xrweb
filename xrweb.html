@@ -65,23 +65,21 @@
 
   <div class="w3-container w3-teal w3-bottom">
 
-    <div class="w3-container w3-padding-small w3-teal w3-cell w3-cell-top w3-responsive w3-mobile">
+    <div class="w3-container w3-padding-small w3-teal w3-cell w3-cell-bottom w3-responsive w3-mobile">
       <button class="w3-btn w3-purple" onclick="document.getElementById('chattrace').innerHTML = '';">Clear</button>
     </div>
 
     <div class="w3-container w3-teal w3-cell w3-responsive w3-mobile w3-padding-small">
-      
+      <label>Channel</label><br>      
       <input id="dest" type="text" style="width:4em;">
-      <label>Channel</label><br>
     </div>
     
     <div class="w3-container w3-teal w3-cell w3-responsive w3-mobile w3-padding-small">
-      
+      <label>Chat Text</label>      
       <input id="tosend" type="text" style="min-width:23em;max-width:40em;">
-      <label>Chat Text</label>
     </div>
 
-    <div class="w3-container w3-cell w3-padding-small w3-teal w3-cell-top w3-responsive w3-mobile">
+    <div class="w3-container w3-cell w3-padding-small w3-teal w3-cell-bottom w3-responsive w3-mobile">
       <button class="w3-btn w3-purple" 
       onclick="var dest = document.getElementById('dest').value + '';
       if(dest === '') {

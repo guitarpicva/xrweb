@@ -215,10 +215,10 @@ function openTab(evt, tabName) {
   }
   tabbuttons = document.getElementsByClassName("tabbutton");
   for (i = 0; i < x.length; i++) {
-    tabbuttons[i].className = tabbuttons[i].className.replace(" w3-red", "");
+    tabbuttons[i].className = tabbuttons[i].className.replace(" w3-purple", "");
   }
   document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " w3-red";
+  evt.currentTarget.className += " w3-purple";
 }
 
 function printTrace(toPrint) {
