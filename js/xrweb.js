@@ -139,14 +139,16 @@ function onMessageArrived(message) {
 				makePresenceRow(parts[2], stat);
 			else {
 				// this node is already here so set the color
-				if(stat === "true") {
-					var doc = document.getElementById(parts[2] + "Online");
+				var doc = document.getElementById(parts[2] + "Online");
+				if(stat === "true") {					
 					if(doc.className.includes("w3-red")) {
 						// remove w3-red and add w3-teal
 					}
 				}
 				else {
-
+					if(doc.className.includes("w3-teal")) {
+						// remove w3-teal and add w3-red
+					}
 				}
 			}
 			var currtext = document.getElementById("trace").innerHTML;
