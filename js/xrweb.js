@@ -9,17 +9,20 @@ class Address {
 		this.frname = friendly_name + ''; // ensure it's a string
 	}
 }
-var calltype = 0;
-var addressBook = []; // this will be an array of "Address" objects filled by a topic from the controller on start
-var me = localStorage.getItem("uniquename"); // my unique ID, same as controller
+// var calltype = 0;
+// var addressBook = []; // this will be an array of "Address" objects filled by a topic from the controller on start
+console.log('set base values from localStorage');
+var me = localStorage.getItem("uniquename"); // the node's name
 var myCallSign = localStorage.getItem('myCallSign') + '';
 var myChatName = localStorage.getItem('myChatName') + '';
 var myChatChannel = localStorage.getItem('currentChatChannel') + '';
 var myPosition = localStorage.getItem("position") + '';
 var passphrase = localStorage.getItem("passphrase") + '';
-if(passphrase === "" || myCallSign === "") {
+console.log(passphrase + ":" + myCallSign +":" + myChatName);
+if(passphrase === "" || myCallSign === "" || myChatName === "") {
 	openNav();
 }
+
 //var ipaddress = "radio.radcommsoft.net";
 var ipaddress = "test.mosquitto.org";
 //var ipaddress = "ec2-54-203-203-171.us-west-2.compute.amazonaws.com";
@@ -284,13 +287,20 @@ function sendChat(channel, chatText) {
 }
 
 function loadSettings() {
+	console.log('loadSettings()');
 	me = localStorage.getItem("uniquename") + '';
-	document.getElementById('dest').value = localStorage.getItem('currentChatChannel') + '';
+	var dest = document.getElementById('dest').value;
+	dest = localStorage.getItem('currentChatChannel') + '';
+	if(dest === '') dest = '1000';
 	document.querySelector("title").innerHTML = 'XRouter Web - ' + me;
-	if(passphrase === '') {
+	if(passphrase === '' || myChatName === '' || myCallSign === '') {
 		openNav();
 	}
+	document.getElementById('mycall').value = myCallSign;
+	document.getElementById('myname').value = myChatName;
+	document.getElementById('dest').value = myChatChannel;
 	document.getElementById("maintab").click();
+
 	// TEST
 	//getDateTimeStamp();
 	//makePresenceRow(me, false);
