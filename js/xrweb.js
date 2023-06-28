@@ -119,24 +119,29 @@ function onMessageArrived(message) {
 	}	
 	else if(topic.includes("xrouter/event/")) {
 		// we got an event which may include a presence indication
-		//console.log("event: " + topic + " : " + res);
+		console.log("event: " + topic + " : " + res);
 		if(topic.includes("/status")) {
 			var parts = topic.split("/");
-			var stat = res;
-			if(document.getElementById(parts[2] + "Online") == null)
+			var stat = res; // "online" or "offline"
+			// if there is no button, make one first
+			if(document.getElementById(parts[2] + "Online") == null) 
 				makePresenceRow(parts[2], stat);
-			else {
-				// this node is already here so set the color
-				var doc = document.getElementById(parts[2] + "Online");
-				if(stat === "true") {					
-					if(doc.className.includes("w3-red")) {
-						// remove w3-red and add w3-teal
-					}
+			else
+				console.log("row exists:" + stat);
+			// this node is already here so set the color
+			var doc = document.getElementById(parts[2] + "Online");
+			if(stat === "offline") {				
+				console.log("offline: " + parts[2]);	
+				if(doc.className.includes("w3-red")) {
+					// remove w3-red and add w3-teal
+					doc.className.replace("w3-teal", "w3-red");
 				}
-				else {
-					if(doc.className.includes("w3-teal")) {
-						// remove w3-teal and add w3-red
-					}
+			}
+			else {
+				console.log("online: " + parts[2]);	
+				if(doc.className.includes("w3-teal")) {
+					// remove w3-teal and add w3-red
+					doc.className.replace("w3-red", "w3-teal");
 				}
 			}
 			var currtext = document.getElementById("trace").innerHTML;
@@ -340,7 +345,7 @@ function makePresenceRow(rfuname, online) {
 	var onlinebutton = document.createElement('button');
 	onlinebutton.id = rfuname + "Online";
 	onlinebutton.innerHTML = (rfuname);
-	if(online) {
+	if(online === "online") {
 		onlinebutton.className = "w3-button w3-teal w3-round-xlarge";
 	}
 	else {
