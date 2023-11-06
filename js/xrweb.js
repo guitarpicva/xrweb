@@ -40,15 +40,19 @@ client.connect({useSSL:true, onSuccess: onConnect});
 // called when the client connects
 function onConnect() {
 	clearInterval(intervalID);
-	//console.log("onConnect..." + document.getElementById("sidebar").className);
+	console.log("onConnect..." + document.getElementById("sidebar").className);
 	// Once a connection has been made, make subscriptions
 	me = localStorage.getItem("uniquename");
 	tmp = "Connected to " + ipaddress;
 	// subscribe to all xrouter topics for testing
 	client.subscribe("xrouter/#");
 	document.getElementById("sidebar").className = document.getElementById("sidebar").className.replace(" w3-red", "");
-	if(!document.getElementById("sidebar").className.includes(" w3-teal"))
+	if(!document.getElementById("sidebar").className.includes(" w3-teal")) {
 		document.getElementById("sidebar").className += " w3-teal";
+	}
+	console.log("Service Worker Ready? " + navigator.serviceWorker.ready);
+	//navigator.serviceWorker.ready.then( reg => { reg.showNotification("Connected to " + ipaddress)}); 
+	notifyMe();
 }
 
 // called when the client loses its connection
@@ -308,7 +312,7 @@ function updateOnlineStatus() {
 	//document.getElementById("onlineInd").innerHTML.style.background = "cornflowerblue";
 	document.getElementById("sidebar").className.replace(" w3-red", "");
 	document.getElementById("sidebar").className += " w3-teal";
-	//console.log("online:" + document.getElementById("onlineInd").style.backgroundColor);
+	//console.log("online:" + document.getElementById("onlineInd").style.backgroundColor);	
 }
 
 function updateOfflineStatus() {
@@ -448,3 +452,28 @@ function makeAddressRow(jason) {
 	a[3].innerHTML = jason.software.name + " " +jason.software.version;	
 }
 // End Connectivity Functions
+
+// Send a browser notification if allowed
+function notifyMe() {
+	if (!("Notification" in window)) {
+	  // Check if the browser supports notifications
+	  alert("This browser does not support desktop notification");
+	} else if (Notification.permission === "granted") {
+	  // Check whether notification permissions have already been granted;
+	  // if so, create a notification
+	  const notification = new Notification("Connected to Server");
+	  // …
+	} else if (Notification.permission !== "denied") {
+	  // We need to ask the user for permission
+	  Notification.requestPermission().then((permission) => {
+		// If the user accepts, let's create a notification
+		if (permission === "granted") {
+		  const notification = new Notification("Connected to Server!");
+		  // …
+		}
+	  });
+	}
+	// At last, if the user has denied notifications, and you
+	// want to be respectful there is no need to bother them anymore.
+  }
+  
