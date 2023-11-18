@@ -5,7 +5,7 @@ var myChatName = localStorage.getItem('myChatName') + '';
 var myChatChannel = localStorage.getItem('currentChatChannel') + '';
 var myPosition = localStorage.getItem("position") + '';
 var passphrase = localStorage.getItem("passphrase") + '';
-console.log(passphrase + ":" + myCallSign +":" + myChatName);
+//console.log(passphrase + ":" + myCallSign +":" + myChatName);
 if(passphrase === "" || myCallSign === "" || myChatName === "") {
 	openNav();
 }
