@@ -195,21 +195,25 @@ function onMessageArrived(message) {
 
 function openNav() {
 	document.getElementById("mycall").value = localStorage.getItem("myCallSign");
-	// document.getElementById("passphr").value = localStorage.getItem("passphrase");
+	document.getElementById("myname").value = localStorage.getItem("myChatName");
+	document.getElementById("passphr").value = localStorage.getItem("passphrase");
 	document.getElementById("mySidebar").style.display = "block";
 }
 
 function closeNav() {
-	document.getElementById("mySidebar").style.display = "none";
 	// save settings values to localStorage object
 	tmp = document.getElementById("passphr").value;
 	passphrase = tmp + '';
+	//document.getElementById("passphr").value = "";
+	localStorage.setItem('passphrase', passphrase);
+
 	tmp = document.getElementById("mycall").value;
-	myCallSign = tmp;
+	myCallSign = tmp + '';
 	localStorage.setItem('myCallSign', myCallSign);
 	tmp = document.getElementById("myname").value;
-	myChatName = tmp;
+	myChatName = tmp + '';
 	localStorage.setItem('myChatName', myChatName);
+	document.getElementById("mySidebar").style.display = "none";	
 	// tmp = document.getElementById("callsign").value;
 	// localStorage.setItem("uniquename", tmp);	
 	// me = tmp; // my unique ID, the viewed station
@@ -475,5 +479,5 @@ function notifyMe() {
 	}
 	// At last, if the user has denied notifications, and you
 	// want to be respectful there is no need to bother them anymore.
-  }
+}
   
